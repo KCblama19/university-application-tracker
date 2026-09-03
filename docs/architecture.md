@@ -18,6 +18,84 @@ The application is intentionally built as a traditional Django application using
 
 A separate frontend framework or REST API is not currently required.
 
+## Codebase & System Architecture
+
+The following diagram provides a high-level view of the application's runtime,
+domain applications, persistence layer, and server-rendered presentation layer.
+
+It shows how the Django applications interact with the project's routing,
+ORM, database, file storage, and templates.
+
+```mermaid
+flowchart TD
+
+subgraph group_runtime["Django Runtime"]
+  node_entrypoints{{"Management / WSGI / ASGI<br/>Django entry points"}}
+  node_settings["Settings &amp; root routing<br/>Django configuration<br/>[settings.py]"]
+  node_root_urls["Root URL configuration<br/>Django router<br/>[urls.py]"]
+  node_orm[("Django ORM &amp; migrations<br/>persistence layer")]
+  node_database[("SQLite / PostgreSQL-ready DB<br/>relational database")]
+  node_media["Local media storage<br/>upload storage"]
+end
+
+subgraph group_domains["Domain Apps"]
+  node_accounts["Accounts &amp; authentication<br/>auth domain<br/>[models.py]"]
+  node_catalog["University catalog<br/>reference domain<br/>[models.py]"]
+  node_applications["Application workflow<br/>core workflow domain<br/>[models.py]"]
+  node_documents["Documents &amp; checklists<br/>document domain<br/>[models.py]"]
+  node_scholarships["Scholarships<br/>funding domain<br/>[models.py]"]
+  node_tasks["Tasks<br/>work domain<br/>[models.py]"]
+  node_contacts["Contacts<br/>relationship domain<br/>[models.py]"]
+  node_dashboard["Dashboard aggregation<br/>read model views<br/>[views.py]"]
+end
+
+subgraph group_presentation["Server-rendered UI"]
+  node_templates["Shared HTML shell<br/>Django templates<br/>[base.html]"]
+  node_dashboard_home["Dashboard summary page<br/>Django template<br/>[home.html]"]
+  node_browser(("Browser<br/>client"))
+end
+
+node_entrypoints -->|"loads"| node_settings
+node_settings -->|"configures"| node_root_urls
+node_browser -->|"HTTP request"| node_root_urls
+
+node_root_urls -->|"routes to"| node_accounts
+node_root_urls -->|"routes to"| node_catalog
+node_root_urls -->|"routes to"| node_applications
+node_root_urls -->|"routes to"| node_documents
+node_root_urls -->|"routes to"| node_dashboard
+
+node_accounts -->|"user ownership"| node_applications
+node_catalog -->|"university / program relationships"| node_applications
+node_applications -->|"associates"| node_scholarships
+node_applications -->|"tracks"| node_documents
+node_applications -->|"has related"| node_tasks
+node_applications -->|"optionally links"| node_contacts
+node_catalog -->|"associates university"| node_contacts
+
+node_documents -->|"uploads files"| node_media
+
+node_accounts -->|"uses"| node_orm
+node_catalog -->|"uses"| node_orm
+node_applications -->|"uses"| node_orm
+node_documents -->|"uses"| node_orm
+node_scholarships -->|"uses"| node_orm
+node_tasks -->|"uses"| node_orm
+node_contacts -->|"uses"| node_orm
+
+node_orm -->|"persists"| node_database
+
+node_dashboard -.->|"aggregates"| node_applications
+node_dashboard -.->|"aggregates"| node_tasks
+node_dashboard -.->|"aggregates"| node_documents
+node_dashboard -.->|"aggregates"| node_scholarships
+
+node_dashboard -->|"renders"| node_dashboard_home
+node_accounts -->|"renders"| node_templates
+node_applications -->|"renders"| node_templates
+
+```
+
 ## Architectural Goals
 
 The architecture is designed around several principles:

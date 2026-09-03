@@ -120,6 +120,9 @@ The project uses a modular Django application structure:
 * `tasks` — application-related and general tasks
 * `dashboard` — application command center and aggregated statistics
 
+For a detailed view of the system architecture and relationships between the Django applications, see the [Architecture Documentation](docs/architecture.md).
+
+
 ### Entity Relationship Diagram
 The Diagram Demonstrates the relationships between various core entities in the program
 
