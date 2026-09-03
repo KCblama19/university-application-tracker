@@ -121,7 +121,6 @@ The project uses a modular Django application structure:
 * `dashboard` — application command center and aggregated statistics
 
 ### Entity Relationship Diagram
-## Entity Relationship Diagram
 The Diagram Demonstrates the relationships between various core entities in the program
 
 ![Application Tracker Entity Relationship Diagram](docs/diagrams/erd.svg)
