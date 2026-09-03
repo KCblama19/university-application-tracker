@@ -57,6 +57,9 @@ INSTALLED_APPS = [
     "apps.contacts",
     "apps.tasks",
     "apps.dashboard",
+    
+    # Extensions
+    "django_extensions",
 ]
 
 MIDDLEWARE = [

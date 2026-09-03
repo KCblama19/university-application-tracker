@@ -120,33 +120,11 @@ The project uses a modular Django application structure:
 * `tasks` — application-related and general tasks
 * `dashboard` — application command center and aggregated statistics
 
-The main relationships are centered around the application:
+### Entity Relationship Diagram
+## Entity Relationship Diagram
+The Diagram Demonstrates the relationships between various core entities in the program
 
-```text
-User
- │
- ├──────────────< Application
- │                    │
- │                    ├────────── University
- │                    │               │
- │                    │               ├──────< Program
- │                    │               │
- │                    │               └──────< Contact
- │                    │
- │                    ├────────── Program
- │                    │
- │                    ├────────── Scholarship
- │                    │
- │                    ├──────< ApplicationDocument >──── Document
- │                    │
- │                    ├──────< Task
- │                    │
- │                    └──────< Contact
- │
- ├──────────────< Document
- ├──────────────< Task
- └──────────────< Contact
-```
+![Application Tracker Entity Relationship Diagram](diagrams/erd.svg)
 
 User-owned records are scoped to the authenticated user at the view/query level. Shared reference data such as universities, programs, and scholarships can be reused across the application workflow.
 

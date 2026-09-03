@@ -140,6 +140,11 @@ User 1 ──── * Contact
 
 Contacts are owned by the authenticated user.
 
+## Entity Relationship Diagram
+The Diagram Demonstrates the relationships between various core entities in the program
+
+![Application Tracker Entity Relationship Diagram](diagrams/erd.svg)
+
 ## Entity Summary
 
 ### User
