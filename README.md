@@ -1,6 +1,6 @@
 # Application Tracker
 
-A personal Django web application for managing the university and Master's application process from one place.
+A personal Django web application for managing university application process from one place.
 
 Application Tracker is designed as a personal **application command center** rather than a collection of disconnected CRUD pages. It connects universities, programs, applications, scholarships, documents, contacts, tasks, and deadlines into one workflow so that important application-related actions are easy to see and manage.
 
@@ -16,7 +16,7 @@ Applying to universities involves tracking a large amount of related information
 * Follow-ups and tasks
 * Application and scholarship deadlines
 
-I built this project to centralize that information and create a practical system that can be used throughout the application cycle.
+I built this project to centralize information and create a practical system that can be used throughout the application cycle.
 
 The project is also an opportunity to practice building a complete Django application, including authentication, relational data modeling, validation, reusable components, query optimization, file handling, and dashboard design.
 
@@ -188,8 +188,8 @@ application_tracker/
 ### 1. Clone the repository
 
 ```bash
-git clone <repository-url>
-cd application_tracker
+git clone git@github.com:KCblama19/university-application-tracker.git
+cd university-application-tracker
 ```
 
 ### 2. Create a virtual environment
@@ -330,6 +330,6 @@ These features are intentionally deferred until the core application workflow is
 
 ## License
 
-This project is currently a personal learning project.
+This project is currently a personal learning project licensed under the MIT License.
 
-License terms can be added when the repository's intended reuse and distribution model is finalized.
+See the LICENSE file for the full license text.
