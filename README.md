@@ -124,7 +124,7 @@ The project uses a modular Django application structure:
 ## Entity Relationship Diagram
 The Diagram Demonstrates the relationships between various core entities in the program
 
-![Application Tracker Entity Relationship Diagram](diagrams/erd.svg)
+![Application Tracker Entity Relationship Diagram](docs/diagrams/erd.svg)
 
 User-owned records are scoped to the authenticated user at the view/query level. Shared reference data such as universities, programs, and scholarships can be reused across the application workflow.
 
