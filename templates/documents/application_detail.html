@@ -1,0 +1,108 @@
+<section class="detail-section">
+    <div class="section-header">
+        <div>
+            <h2>Documents</h2>
+            <p class="section-description">
+                Documents associated with this application.
+            </p>
+        </div>
+
+        <a
+            href="{% url 'documents:application_document_create' application.id %}"
+            class="btn btn-primary"
+        >
+            Add Document
+        </a>
+    </div>
+
+    {% if application.application_documents.all %}
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Document</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Status</th>
+                        <th>Submitted</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for application_document in application.application_documents.all %}
+                        <tr>
+                            <td>
+                                {% if application_document.document %}
+                                    <a
+                                        href="{% url 'documents:detail' application_document.document.id %}"
+                                        class="table-link"
+                                    >
+                                        {{ application_document.document.name }}
+                                    </a>
+                                {% else %}
+                                    —
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {{ application_document.get_document_type_display }}
+                            </td>
+
+                            <td>
+                                {% if application_document.required %}
+                                    Yes
+                                {% else %}
+                                    No
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <span class="application-status status-{{ application_document.status|lower }}">
+                                    {{ application_document.get_status_display }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {% if application_document.submitted_at %}
+                                    {{ application_document.submitted_at|date:"M d, Y" }}
+                                {% else %}
+                                    —
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <div class="table-actions">
+                                    <a
+                                        href="{% url 'documents:application_document_update' application_document.id %}"
+                                        class="table-action"
+                                    >
+                                        Edit
+                                    </a>
+
+                                    <a
+                                        href="{% url 'documents:application_document_delete' application_document.id %}"
+                                        class="table-action table-action-danger"
+                                    >
+                                        Remove
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="table-empty">
+            <p>No documents have been added to this application yet.</p>
+
+            <a
+                href="{% url 'documents:application_document_create' application.id %}"
+                class="btn btn-secondary"
+            >
+                Add the first document
+            </a>
+        </div>
+    {% endif %}
+</section>

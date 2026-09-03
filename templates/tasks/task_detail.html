@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}{{ task.title }}{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>{{ task.title }}</h1>
+
+        <p class="section-description">
+            Task details and progress.
+        </p>
+    </div>
+
+    <div class="page-actions">
+
+        <a
+            href="{% url 'tasks:update' task.id %}"
+            class="btn btn-primary"
+        >
+            Edit Task
+        </a>
+
+        <a
+            href="{% url 'tasks:delete' task.id %}"
+            class="btn btn-danger"
+        >
+            Delete
+        </a>
+
+    </div>
+
+</div>
+
+
+<div class="detail-layout">
+
+    <div class="detail-card">
+
+        <div class="detail-section">
+
+            <h2>Task Information</h2>
+
+            <div class="detail-grid">
+
+                <div class="detail-item">
+                    <span class="detail-label">Status</span>
+
+                    <span class="detail-value">
+                        {{ task.get_status_display }}
+                    </span>
+                </div>
+
+
+                <div class="detail-item">
+                    <span class="detail-label">Priority</span>
+
+                    <span class="detail-value">
+                        {{ task.get_priority_display }}
+                    </span>
+                </div>
+
+
+                <div class="detail-item">
+                    <span class="detail-label">Due Date</span>
+
+                    <span class="detail-value">
+
+                        {% if task.due_date %}
+                            {{ task.due_date|date:"F d, Y" }}
+
+                            {% if task.is_overdue %}
+                                <span class="status-badge status-danger">
+                                    Overdue
+                                </span>
+                            {% endif %}
+                        {% else %}
+                            No deadline
+                        {% endif %}
+
+                    </span>
+                </div>
+
+
+                <div class="detail-item">
+                    <span class="detail-label">Completed</span>
+
+                    <span class="detail-value">
+
+                        {% if task.completed_at %}
+                            {{ task.completed_at|date:"F d, Y H:i" }}
+                        {% else %}
+                            Not completed
+                        {% endif %}
+
+                    </span>
+                </div>
+
+
+                <div class="detail-item">
+                    <span class="detail-label">Created</span>
+
+                    <span class="detail-value">
+                        {{ task.created_at|date:"F d, Y H:i" }}
+                    </span>
+                </div>
+
+
+                <div class="detail-item">
+                    <span class="detail-label">Last Updated</span>
+
+                    <span class="detail-value">
+                        {{ task.updated_at|date:"F d, Y H:i" }}
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="detail-section">
+
+            <h2>Application</h2>
+
+            {% if task.application %}
+
+                <div class="detail-grid">
+
+                    <div class="detail-item">
+                        <span class="detail-label">University</span>
+
+                        <span class="detail-value">
+                            <a
+                                href="{% url 'universities:detail' task.application.university.id %}"
+                                class="detail-link"
+                            >
+                                {{ task.application.university.name }}
+                            </a>
+                        </span>
+                    </div>
+
+
+                    <div class="detail-item">
+                        <span class="detail-label">Program</span>
+
+                        <span class="detail-value">
+                            {{ task.application.program.name }}
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="section-actions">
+                    <a
+                        href="{% url 'applications:detail' task.application.id %}"
+                        class="btn btn-secondary"
+                    >
+                        View Application
+                    </a>
+                </div>
+
+            {% else %}
+
+                <p class="text-muted">
+                    This is a general task and is not associated with an application.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        {% if task.description %}
+
+            <div class="detail-section">
+
+                <h2>Description</h2>
+
+                <div class="detail-long-text">
+                    {{ task.description|linebreaks }}
+                </div>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

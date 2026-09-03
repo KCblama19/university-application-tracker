@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Remove Document | Application Tracker{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>Remove Application Document</h1>
+        <p class="section-description">
+            Remove this document from the application.
+        </p>
+    </div>
+</div>
+
+<div class="confirmation-content">
+    <div class="confirmation-message">
+        <h2>
+            Remove this document from the application?
+        </h2>
+
+        <p>
+            <strong>{{ application_document.document.name }}</strong>
+            will be removed from
+            <strong>{{ application.university.name }}</strong>.
+        </p>
+
+        <p class="text-muted">
+            The original document will remain safely in your document library.
+        </p>
+    </div>
+
+    <form method="post" class="confirmation-actions">
+        {% csrf_token %}
+
+        <a
+            href="{% url 'applications:detail' application.id %}"
+            class="btn btn-secondary"
+        >
+            Cancel
+        </a>
+
+        <button type="submit" class="btn btn-danger">
+            Remove Document
+        </button>
+    </form>
+</div>
+{% endblock %}

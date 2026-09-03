@@ -1,0 +1,304 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ university.name }} — Application Command Center
+{% endblock %}
+
+{% block universities_nav %}active{% endblock %}
+
+{% block breadcrumb %}
+    <a href="{% url 'universities:list' %}">
+        Universities
+    </a>
+
+    <span class="breadcrumb-separator">/</span>
+
+    <span class="breadcrumb-current">
+        {{ university.name }}
+    </span>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-header">
+
+    <div class="page-header-text">
+
+        <h1 class="page-title">
+            {{ university.name }}
+        </h1>
+
+        <p class="page-description">
+            {{ university.city }}, {{ university.country }}
+        </p>
+
+    </div>
+
+    <div class="page-actions">
+
+        <a
+            href="{% url 'universities:update' university.pk %}"
+            class="btn btn-secondary"
+        >
+            Edit university
+        </a>
+
+        <a
+            href="{% url 'universities:delete' university.pk %}"
+            class="btn btn-danger"
+        >
+            Delete
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- University information -->
+
+<section class="surface detail-section">
+
+    <div class="surface-header">
+
+        <h2 class="surface-title">
+            University information
+        </h2>
+
+    </div>
+
+
+    <div class="detail-grid">
+
+        <div class="detail-item">
+
+            <span class="detail-label">
+                Country
+            </span>
+
+            <span class="detail-value">
+                {{ university.country }}
+            </span>
+
+        </div>
+
+
+        <div class="detail-item">
+
+            <span class="detail-label">
+                City
+            </span>
+
+            <span class="detail-value">
+                {{ university.city|default:"—" }}
+            </span>
+
+        </div>
+
+
+        <div class="detail-item">
+
+            <span class="detail-label">
+                Ranking
+            </span>
+
+            <span class="detail-value">
+                {% if university.ranking %}
+                    #{{ university.ranking }}
+                {% else %}
+                    —
+                {% endif %}
+            </span>
+
+        </div>
+
+
+        <div class="detail-item">
+
+            <span class="detail-label">
+                Website
+            </span>
+
+            <span class="detail-value">
+
+                {% if university.website %}
+
+                    <a
+                        href="{{ university.website }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="detail-link"
+                    >
+                        Visit website
+                    </a>
+
+                {% else %}
+                    —
+                {% endif %}
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+    {% if university.description %}
+
+        <div class="detail-long-text">
+
+            <span class="detail-label">
+                Description
+            </span>
+
+            <p>
+                {{ university.description|linebreaksbr }}
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    {% if university.notes %}
+
+        <div class="detail-long-text">
+
+            <span class="detail-label">
+                Notes
+            </span>
+
+            <p>
+                {{ university.notes|linebreaksbr }}
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+
+<!-- Programs -->
+
+<section class="surface detail-section">
+
+    <div class="surface-header">
+
+        <div>
+            <h2 class="surface-title">
+                Programs
+            </h2>
+
+            <p class="section-description">
+                Academic programs available at this university.
+            </p>
+        </div>
+
+        <a
+            href="{% url 'universities:program_create' university.pk %}"
+            class="btn btn-primary"
+        >
+            Add program
+        </a>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+        <table class="data-table">
+
+            <thead>
+
+                <tr>
+                    <th>Program</th>
+                    <th>Degree</th>
+                    <th>Language</th>
+                    <th>Duration</th>
+                    <th>Tuition</th>
+                    <th></th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for program in university.programs.all %}
+
+                    <tr>
+
+                        <td class="table-primary">
+                            {{ program.name }}
+                        </td>
+
+                        <td>
+                            {{ program.get_degree_type_display }}
+                        </td>
+
+                        <td>
+                            {{ program.get_study_language_display }}
+                        </td>
+
+                        <td>
+                            {% if program.duration %}
+                                {{ program.duration }} years
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if program.tuition_fee %}
+                                {{ program.tuition_fee }}
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
+
+                        <td class="table-actions">
+
+                            <a
+                                href="{% url 'universities:program_update' program.pk %}"
+                                class="table-action"
+                            >
+                                Edit
+                            </a>
+
+                            <a
+                                href="{% url 'universities:program_delete' program.pk %}"
+                                class="table-action"
+                            >
+                                Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="table-empty"
+                        >
+                            No programs have been added yet.
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+{% endblock %}

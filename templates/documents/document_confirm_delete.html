@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Delete Document | Application Command Center
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <p class="breadcrumb">
+            <a href="{% url 'documents:list' %}">Documents</a>
+            / Delete
+        </p>
+
+        <h1>Delete Document</h1>
+    </div>
+</div>
+
+<div class="content-card">
+    <div class="confirmation-content">
+
+        <h2>
+            Delete {{ document.name }}?
+        </h2>
+
+        <p>
+            This will remove the document from your document library.
+            Any application records using this document may also be
+            affected.
+        </p>
+
+        <div class="confirmation-actions">
+
+            <a
+                href="{% url 'documents:detail' document.id %}"
+                class="btn btn-secondary"
+            >
+                Cancel
+            </a>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <button type="submit" class="btn btn-danger">
+                    Delete Document
+                </button>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ page_title }} | Application Command Center
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <p class="breadcrumb">
+            <a href="{% url 'documents:list' %}">Documents</a>
+            / {{ page_title }}
+        </p>
+
+        <h1>{{ page_title }}</h1>
+
+        <p class="page-description">
+            Store a reusable document in your personal document library.
+        </p>
+    </div>
+</div>
+
+<form
+    method="post"
+    enctype="multipart/form-data"
+    class="form-layout"
+>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+        <div class="form-errors">
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <section class="form-card">
+        <div class="form-card-header">
+            <h2>Document</h2>
+            <p>
+                Identify the document and upload the file.
+            </p>
+        </div>
+
+        <div class="form-card-body">
+
+            <div class="form-group">
+                <label for="{{ form.name.id_for_label }}">
+                    Document Name
+                </label>
+
+                {{ form.name }}
+
+                {% for error in form.name.errors %}
+                    <p class="field-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.document_type.id_for_label }}">
+                        Document Type
+                    </label>
+
+                    {{ form.document_type }}
+
+                    {% for error in form.document_type.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.file.id_for_label }}">
+                        File
+                    </label>
+
+                    {{ form.file }}
+
+                    {% if document %}
+                        <p class="form-help">
+                            Leave this unchanged if you do not want to
+                            replace the existing file.
+                        </p>
+                    {% endif %}
+
+                    {% for error in form.file.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="form-card">
+        <div class="form-card-header">
+            <h2>Dates</h2>
+            <p>
+                Optional dates for documents that have issue or expiry dates.
+            </p>
+        </div>
+
+        <div class="form-card-body">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.issue_date.id_for_label }}">
+                        Issue Date
+                    </label>
+
+                    {{ form.issue_date }}
+
+                    {% for error in form.issue_date.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.expiry_date.id_for_label }}">
+                        Expiry Date
+                    </label>
+
+                    {{ form.expiry_date }}
+
+                    {% for error in form.expiry_date.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="form-card">
+        <div class="form-card-header">
+            <h2>Notes</h2>
+        </div>
+
+        <div class="form-card-body">
+            <div class="form-group">
+                <label for="{{ form.notes.id_for_label }}">
+                    Notes
+                </label>
+
+                {{ form.notes }}
+
+                {% for error in form.notes.errors %}
+                    <p class="field-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+
+    <div class="form-card-footer">
+        <a
+            href="{% if document %}{% url 'documents:detail' document.id %}{% else %}{% url 'documents:list' %}{% endif %}"
+            class="btn btn-secondary"
+        >
+            Cancel
+        </a>
+
+        <button type="submit" class="btn btn-primary">
+            {{ submit_label }}
+        </button>
+    </div>
+
+</form>
+{% endblock %}

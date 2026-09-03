@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Contact{% endblock %}
+
+{% block content %}
+
+<div class="confirmation-card">
+
+    <div class="confirmation-content">
+
+        <h1>Delete Contact?</h1>
+
+        <p>
+            You are about to permanently delete:
+        </p>
+
+        <p>
+            <strong>{{ contact.name }}</strong>
+        </p>
+
+        <p class="text-muted">
+            This action cannot be undone.
+        </p>
+
+    </div>
+
+
+    <div class="confirmation-actions">
+
+        <a
+            href="{% url 'contacts:detail' contact.id %}"
+            class="btn btn-secondary"
+        >
+            Cancel
+        </a>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                class="btn btn-danger"
+            >
+                Delete Contact
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

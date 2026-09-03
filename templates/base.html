@@ -1,0 +1,242 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% block title %}Application Command Center{% endblock %}
+    </title>
+
+    <meta
+        name="description"
+        content="Personal university application management system."
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/app.css' %}"
+    >
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <!-- Mobile header -->
+    <header class="mobile-header">
+        <a href="{% url 'dashboard:home' %}" class="brand">
+            <span class="brand-mark">AC</span>
+            <span class="brand-name">Application Command Center</span>
+        </a>
+
+        <button
+            type="button"
+            class="mobile-menu-button"
+            id="mobile-menu-button"
+            aria-label="Open navigation"
+            aria-expanded="false"
+        >
+            ☰
+        </button>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-brand">
+            <a href="{% url 'dashboard:home' %}" class="brand">
+                <span class="brand-mark">AC</span>
+
+                <span>
+                    <span class="brand-name">
+                        Application
+                    </span>
+                    <span class="brand-subtitle">
+                        Command Center
+                    </span>
+                </span>
+            </a>
+        </div>
+
+        <nav class="sidebar-navigation">
+
+            <div class="nav-section">
+                <span class="nav-section-label">
+                    Workspace
+                </span>
+
+                <a
+                    href="{% url 'dashboard:home' %}"
+                    class="nav-link {% block dashboard_nav %}{% endblock %}"
+                >
+                    <span class="nav-icon">⌂</span>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+
+
+            <div class="nav-section">
+                <span class="nav-section-label">
+                    Applications
+                </span>
+
+                <a
+                    href="{% url 'universities:list' %}"
+                    class="nav-link {% block universities_nav %}{% endblock %}"
+                >
+                    <span class="nav-icon">▣</span>
+                    <span>Universities</span>
+                </a>
+
+                <a
+                    href="{% url 'applications:list' %}"
+                    class="nav-link {% block applications_nav %}{% endblock %}"
+                >
+                    <span class="nav-icon">□</span>
+                    <span>Applications</span>
+                </a>
+
+                <a
+                    {% comment %} href="{% url 'scholarships:list' %}" {% endcomment %}
+                    class="nav-link {% block scholarships_nav %}{% endblock %}"
+                >
+                    <span class="nav-icon">◇</span>
+                    <span>Scholarships</span>
+                </a>
+            </div>
+
+
+            <div class="nav-section">
+                <span class="nav-section-label">
+                    Resources
+                </span>
+
+                <a
+                    href="{% url 'documents:list' %}"
+                    class="nav-link {% block documents_nav %}{% endblock %}"
+                >
+                    <span class="nav-icon">▤</span>
+                    <span>Documents</span>
+                </a>
+
+                <a
+                    {% comment %} href="{% url 'contacts:list' %}" {% endcomment %}
+                    class="nav-link {% block contacts_nav %}{% endblock %}"
+                >
+                    <span class="nav-icon">◎</span>
+                    <span>Contacts</span>
+                </a>
+
+                <a
+                    {% comment %} href="{% url 'tasks:list' %}" {% endcomment %}
+                    class="nav-link {% block tasks_nav %}{% endblock %}"
+                >
+                    <span class="nav-icon">✓</span>
+                    <span>Tasks</span>
+                </a>
+            </div>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            {% if request.user.is_authenticated %}
+
+                <div class="user-profile">
+
+                    <div class="user-avatar">
+                        {{ request.user.username|first|upper }}
+                    </div>
+
+                    <div class="user-information">
+                        <span class="user-name">
+                            {{ request.user.get_full_name|default:request.user.username }}
+                        </span>
+
+                        <span class="user-email">
+                            {{ request.user.email }}
+                        </span>
+                    </div>
+
+                </div>
+
+                <a
+                    href="{% url 'accounts:logout' %}"
+                    class="logout-link"
+                >
+                    Sign out
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </aside>
+
+
+    <!-- Main application area -->
+    <div class="main-area">
+
+        <header class="topbar">
+
+            <div class="breadcrumb-area">
+                {% block breadcrumb %}
+                <span class="breadcrumb-current">
+                    Dashboard
+                </span>
+                {% endblock %}
+            </div>
+
+            <div class="topbar-actions">
+
+                <a
+                    href="{% url 'tasks:list' %}"
+                    class="topbar-action"
+                    title="Tasks"
+                >
+                    Tasks
+                </a>
+
+            </div>
+
+        </header>
+
+
+        <main class="main-content">
+
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message message-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+
+            {% block content %}
+            {% endblock %}
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<script src="{% static 'js/app.js' %}"></script>
+
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Delete University</h1>
+
+<p>
+    Are you sure you want to delete
+    <strong>{{ university.name }}</strong>?
+</p>
+
+<p>
+    This action cannot be undone.
+</p>
+
+<form method="post">
+    {% csrf_token %}
+
+    <button type="submit">
+        Yes, Delete University
+    </button>
+
+    <a href="{% url 'universities:detail' university.pk %}">
+        Cancel
+    </a>
+</form>
+
+{% endblock %}

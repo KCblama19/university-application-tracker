@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }} | Application Tracker{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1>{{ page_title }}</h1>
+
+        <p class="section-description">
+            Add scholarship information to your application tracker.
+        </p>
+    </div>
+
+    <a
+        href="{% url 'scholarships:list' %}"
+        class="btn btn-secondary"
+    >
+        Back to Scholarships
+    </a>
+</div>
+
+
+<form method="post" class="form-layout">
+
+    {% csrf_token %}
+
+    <div class="form-card">
+
+        <div class="form-card-header">
+            <h2>Scholarship Information</h2>
+
+            <p>
+                Record the scholarship opportunity, deadline,
+                funding details, and eligibility requirements.
+            </p>
+        </div>
+
+
+        <div class="form-card-body">
+
+            {% if form.non_field_errors %}
+                <div class="form-errors">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label for="{{ form.name.id_for_label }}">
+                        Scholarship Name
+                    </label>
+
+                    {{ form.name }}
+
+                    {% if form.name.errors %}
+                        <div class="form-errors">
+                            {{ form.name.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+
+                <div class="form-group">
+                    <label for="{{ form.provider.id_for_label }}">
+                        Provider
+                    </label>
+
+                    {{ form.provider }}
+
+                    {% if form.provider.errors %}
+                        <div class="form-errors">
+                            {{ form.provider.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label for="{{ form.scholarship_type.id_for_label }}">
+                        Scholarship Type
+                    </label>
+
+                    {{ form.scholarship_type }}
+
+                    {% if form.scholarship_type.errors %}
+                        <div class="form-errors">
+                            {{ form.scholarship_type.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+
+                <div class="form-group">
+                    <label for="{{ form.deadline.id_for_label }}">
+                        Deadline
+                    </label>
+
+                    {{ form.deadline }}
+
+                    {% if form.deadline.errors %}
+                        <div class="form-errors">
+                            {{ form.deadline.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+                <label for="{{ form.coverage.id_for_label }}">
+                    Coverage
+                </label>
+
+                {{ form.coverage }}
+
+                {% if form.coverage.errors %}
+                    <div class="form-errors">
+                        {{ form.coverage.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+
+            <div class="form-group">
+                <label for="{{ form.stipend.id_for_label }}">
+                    Monthly Stipend
+                </label>
+
+                {{ form.stipend }}
+
+                {% if form.stipend.errors %}
+                    <div class="form-errors">
+                        {{ form.stipend.errors }}
+                    </div>
+                {% endif %}
+
+                <p class="form-help">
+                    Enter the monthly amount if the scholarship provides
+                    a recurring stipend.
+                </p>
+            </div>
+
+
+            <div class="form-group">
+                <label for="{{ form.eligibility.id_for_label }}">
+                    Eligibility
+                </label>
+
+                {{ form.eligibility }}
+
+                {% if form.eligibility.errors %}
+                    <div class="form-errors">
+                        {{ form.eligibility.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+
+            <div class="form-group">
+                <label for="{{ form.application_url.id_for_label }}">
+                    Application URL
+                </label>
+
+                {{ form.application_url }}
+
+                {% if form.application_url.errors %}
+                    <div class="form-errors">
+                        {{ form.application_url.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+
+            <div class="form-group">
+                <label for="{{ form.notes.id_for_label }}">
+                    Notes
+                </label>
+
+                {{ form.notes }}
+
+                {% if form.notes.errors %}
+                    <div class="form-errors">
+                        {{ form.notes.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+
+
+        <div class="form-card-footer">
+
+            <a
+                href="{% url 'scholarships:list' %}"
+                class="btn btn-secondary"
+            >
+                Cancel
+            </a>
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                {{ submit_label }}
+            </button>
+
+        </div>
+
+    </div>
+
+</form>
+
+{% endblock %}

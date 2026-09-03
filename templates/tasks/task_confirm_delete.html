@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Task{% endblock %}
+
+{% block content %}
+
+<div class="confirmation-card">
+
+    <div class="confirmation-content">
+
+        <h1>Delete Task?</h1>
+
+        <p>
+            You are about to permanently delete:
+        </p>
+
+        <p>
+            <strong>{{ task.title }}</strong>
+        </p>
+
+        <p class="text-muted">
+            This action cannot be undone.
+        </p>
+
+    </div>
+
+
+    <div class="confirmation-actions">
+
+        <a
+            href="{% url 'tasks:detail' task.id %}"
+            class="btn btn-secondary"
+        >
+            Cancel
+        </a>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                class="btn btn-danger"
+            >
+                Delete Task
+            </button>
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

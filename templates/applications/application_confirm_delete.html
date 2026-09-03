@@ -1,0 +1,50 @@
+{% load static %}
+{% extends "base.html" %}
+
+{% block title %}
+    Delete Application | Application Command Center
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <p class="breadcrumb">
+            <a href="{% url 'applications:list' %}">Applications</a>
+            / Delete
+        </p>
+
+        <h1>Delete Application</h1>
+    </div>
+</div>
+
+<div class="content-card">
+    <div class="confirmation-content">
+        <h2>
+            Delete {{ application.program.name }} at
+            {{ application.university.name }}?
+        </h2>
+
+        <p>
+            This will permanently remove this application and its
+            application-specific records.
+        </p>
+
+        <div class="confirmation-actions">
+            <a
+                href="{% url 'applications:detail' application.id %}"
+                class="btn btn-secondary"
+            >
+                Cancel
+            </a>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <button type="submit" class="btn btn-danger">
+                    Delete Application
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

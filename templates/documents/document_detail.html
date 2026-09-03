@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ document.name }} | Application Command Center
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <p class="breadcrumb">
+            <a href="{% url 'documents:list' %}">Documents</a>
+            / {{ document.name }}
+        </p>
+
+        <h1>{{ document.name }}</h1>
+
+        <p class="page-description">
+            {{ document.get_document_type_display }}
+        </p>
+    </div>
+
+    <div class="page-actions">
+        <a
+            href="{{ document.file.url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-secondary"
+        >
+            Open File
+        </a>
+
+        <a
+            href="{% url 'documents:update' document.id %}"
+            class="btn btn-secondary"
+        >
+            Edit
+        </a>
+
+        <a
+            href="{% url 'documents:delete' document.id %}"
+            class="btn btn-danger"
+        >
+            Delete
+        </a>
+    </div>
+</div>
+
+<div class="detail-layout">
+
+    <section class="detail-section">
+        <div class="detail-section-header">
+            <div>
+                <h2>Document Information</h2>
+            </div>
+        </div>
+
+        <div class="detail-grid">
+
+            <div class="detail-item">
+                <span class="detail-label">Name</span>
+                <span class="detail-value">
+                    {{ document.name }}
+                </span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Type</span>
+                <span class="detail-value">
+                    {{ document.get_document_type_display }}
+                </span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Issue Date</span>
+                <span class="detail-value">
+                    {% if document.issue_date %}
+                        {{ document.issue_date|date:"F d, Y" }}
+                    {% else %}
+                        <span class="text-muted">Not set</span>
+                    {% endif %}
+                </span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Expiry Date</span>
+                <span class="detail-value">
+                    {% if document.expiry_date %}
+                        {{ document.expiry_date|date:"F d, Y" }}
+                    {% else %}
+                        <span class="text-muted">No expiry</span>
+                    {% endif %}
+                </span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Added</span>
+                <span class="detail-value">
+                    {{ document.created_at|date:"F d, Y" }}
+                </span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Last Updated</span>
+                <span class="detail-value">
+                    {{ document.updated_at|date:"F d, Y" }}
+                </span>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="detail-section">
+        <div class="detail-section-header">
+            <div>
+                <h2>File</h2>
+            </div>
+        </div>
+
+        <div class="document-file">
+            <span class="document-file-name">
+                {{ document.file.name }}
+            </span>
+
+            <a
+                href="{{ document.file.url }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="external-link"
+            >
+                Open Document
+            </a>
+        </div>
+    </section>
+
+
+    <section class="detail-section">
+        <div class="detail-section-header">
+            <div>
+                <h2>Notes</h2>
+            </div>
+        </div>
+
+        {% if document.notes %}
+            <div class="detail-long-text">
+                {{ document.notes|linebreaks }}
+            </div>
+        {% else %}
+            <p class="text-muted">
+                No notes have been added.
+            </p>
+        {% endif %}
+    </section>
+
+</div>
+{% endblock %}

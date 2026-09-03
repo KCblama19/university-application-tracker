@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Universities — Application Command Center{% endblock %}
+
+{% block universities_nav %}active{% endblock %}
+
+{% block breadcrumb %}
+    <span class="breadcrumb-current">Universities</span>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div class="page-header-text">
+        <h1 class="page-title">Universities</h1>
+
+        <p class="page-description">
+            Manage the universities you're considering for your applications.
+        </p>
+    </div>
+
+    <div class="page-actions">
+        <a
+            href="{% url 'universities:create' %}"
+            class="btn btn-primary"
+        >
+            Add university
+        </a>
+    </div>
+
+</div>
+
+
+<div class="surface">
+
+    <div class="surface-header">
+
+        <h2 class="surface-title">
+            University shortlist
+        </h2>
+
+        <span class="text-muted">
+            {{ universities|length }} universities
+        </span>
+
+    </div>
+
+
+    {% if universities %}
+
+        <div class="table-wrapper">
+
+            <table class="data-table">
+
+                <thead>
+                    <tr>
+                        <th>University</th>
+                        <th>Location</th>
+                        <th>Ranking</th>
+                        <th>Programs</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for university in universities %}
+
+                        <tr>
+
+                            <td>
+                                <a
+                                    href="{% url 'universities:detail' university.pk %}"
+                                    class="table-primary table-link"
+                                >
+                                    {{ university.name }}
+                                </a>
+                            </td>
+
+                            <td>
+                                {{ university.city }},
+                                {{ university.country }}
+                            </td>
+
+                            <td>
+                                {% if university.ranking %}
+                                    #{{ university.ranking }}
+                                {% else %}
+                                    —
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {{ university.programs.count }}
+                            </td>
+
+                            <td class="table-actions">
+
+                                <a
+                                    href="{% url 'universities:detail' university.pk %}"
+                                    class="table-action"
+                                >
+                                    View
+                                </a>
+
+                                <a
+                                    href="{% url 'universities:update' university.pk %}"
+                                    class="table-action"
+                                >
+                                    Edit
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+
+            <h3 class="empty-state-title">
+                No universities yet
+            </h3>
+
+            <p class="empty-state-description">
+                Add the universities you're considering so you can
+                track programs, applications, scholarships, and deadlines.
+            </p>
+
+            <a
+                href="{% url 'universities:create' %}"
+                class="btn btn-primary"
+            >
+                Add your first university
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

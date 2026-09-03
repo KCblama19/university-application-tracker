@@ -1,0 +1,263 @@
+{% extends "base.html" %}
+
+{% block title %}Tasks{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1>Tasks</h1>
+        <p class="section-description">
+            Track actions you need to complete across your application process.
+        </p>
+    </div>
+
+    <a href="{% url 'tasks:create' %}" class="btn btn-primary">
+        Add Task
+    </a>
+</div>
+
+
+<div class="filter-card">
+    <form method="get" class="filter-form">
+
+        <div class="form-group">
+            <label for="status">Status</label>
+
+            <select
+                name="status"
+                id="status"
+                class="form-control"
+            >
+                <option value="">All statuses</option>
+
+                {% for value, label in status_choices %}
+                    <option
+                        value="{{ value }}"
+                        {% if current_status == value %}selected{% endif %}
+                    >
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+
+        <div class="form-group">
+            <label for="priority">Priority</label>
+
+            <select
+                name="priority"
+                id="priority"
+                class="form-control"
+            >
+                <option value="">All priorities</option>
+
+                {% for value, label in priority_choices %}
+                    <option
+                        value="{{ value }}"
+                        {% if current_priority == value %}selected{% endif %}
+                    >
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+
+        <div class="form-group">
+            <label for="application">Application</label>
+
+            <select
+                name="application"
+                id="application"
+                class="form-control"
+            >
+                <option value="">All applications</option>
+
+                {% for application in applications %}
+                    <option
+                        value="{{ application.id }}"
+                        {% if current_application == application.id|stringformat:"s" %}selected{% endif %}
+                    >
+                        {{ application.university.name }} — {{ application.program.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+
+        <div class="form-group filter-checkbox">
+            <label>
+                <input
+                    type="checkbox"
+                    name="overdue"
+                    value="1"
+                    {% if show_overdue %}checked{% endif %}
+                >
+                Overdue only
+            </label>
+        </div>
+
+
+        <div class="filter-actions">
+            <button type="submit" class="btn btn-primary">
+                Filter
+            </button>
+
+            <a href="{% url 'tasks:list' %}" class="btn btn-secondary">
+                Clear
+            </a>
+        </div>
+
+    </form>
+</div>
+
+
+<div class="table-card">
+
+    {% if tasks %}
+
+        <div class="table-wrapper">
+            <table class="data-table">
+
+                <thead>
+                    <tr>
+                        <th>Task</th>
+                        <th>Application</th>
+                        <th>Due Date</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for task in tasks %}
+
+                        <tr>
+
+                            <td>
+                                <a
+                                    href="{% url 'tasks:detail' task.id %}"
+                                    class="table-link"
+                                >
+                                    {{ task.title }}
+                                </a>
+                            </td>
+
+
+                            <td>
+                                {% if task.application %}
+                                    <a
+                                        href="{% url 'applications:detail' task.application.id %}"
+                                        class="table-link"
+                                    >
+                                        {{ task.application.university.name }}
+                                    </a>
+                                {% else %}
+                                    <span class="text-muted">
+                                        General
+                                    </span>
+                                {% endif %}
+                            </td>
+
+
+                            <td>
+                                {% if task.due_date %}
+                                    {{ task.due_date|date:"M d, Y" }}
+
+                                    {% if task.is_overdue %}
+                                        <span class="status-badge status-danger">
+                                            Overdue
+                                        </span>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="text-muted">
+                                        No deadline
+                                    </span>
+                                {% endif %}
+                            </td>
+
+
+                            <td>
+                                <span class="status-badge">
+                                    {{ task.get_priority_display }}
+                                </span>
+                            </td>
+
+
+                            <td>
+                                <span class="status-badge">
+                                    {{ task.get_status_display }}
+                                </span>
+                            </td>
+
+
+                            <td>
+                                <div class="table-actions">
+
+                                    <a
+                                        href="{% url 'tasks:detail' task.id %}"
+                                        class="table-action"
+                                    >
+                                        View
+                                    </a>
+
+                                    <a
+                                        href="{% url 'tasks:update' task.id %}"
+                                        class="table-action"
+                                    >
+                                        Edit
+                                    </a>
+
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+
+            <h3>No tasks found</h3>
+
+            {% if current_status or current_priority or current_application or show_overdue %}
+                <p>
+                    No tasks match the current filters.
+                </p>
+
+                <a
+                    href="{% url 'tasks:list' %}"
+                    class="btn btn-secondary"
+                >
+                    Clear Filters
+                </a>
+            {% else %}
+                <p>
+                    You don't have any tasks yet.
+                </p>
+
+                <a
+                    href="{% url 'tasks:create' %}"
+                    class="btn btn-primary"
+                >
+                    Create Your First Task
+                </a>
+            {% endif %}
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

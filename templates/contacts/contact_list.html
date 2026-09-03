@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block title %}Contacts{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1>Contacts</h1>
+        <p class="section-description">
+            Manage professors, admissions officers, and other university contacts.
+        </p>
+    </div>
+
+    <a href="{% url 'contacts:create' %}" class="btn btn-primary">
+        Add Contact
+    </a>
+</div>
+
+
+<div class="filter-card">
+    <form method="get" class="filter-form">
+
+        <div class="form-group">
+            <label for="status">Status</label>
+
+            <select name="status" id="status" class="form-control">
+                <option value="">All statuses</option>
+
+                {% for value, label in status_choices %}
+                    <option
+                        value="{{ value }}"
+                        {% if current_status == value %}selected{% endif %}
+                    >
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="filter-actions">
+            <button type="submit" class="btn btn-primary">
+                Filter
+            </button>
+
+            <a href="{% url 'contacts:list' %}" class="btn btn-secondary">
+                Clear
+            </a>
+        </div>
+
+    </form>
+</div>
+
+
+<div class="table-card">
+
+    {% if contacts %}
+
+        <div class="table-wrapper">
+            <table class="data-table">
+
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>University</th>
+                        <th>Position</th>
+                        <th>Research Area</th>
+                        <th>Status</th>
+                        <th>Follow-Up</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for contact in contacts %}
+
+                        <tr>
+
+                            <td>
+                                <a
+                                    href="{% url 'contacts:detail' contact.id %}"
+                                    class="table-link"
+                                >
+                                    {{ contact.name }}
+                                </a>
+                            </td>
+
+                            <td>
+                                <a
+                                    href="{% url 'universities:detail' contact.university.id %}"
+                                    class="table-link"
+                                >
+                                    {{ contact.university.name }}
+                                </a>
+                            </td>
+
+                            <td>
+                                {% if contact.position %}
+                                    {{ contact.position }}
+                                {% else %}
+                                    <span class="text-muted">—</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if contact.research_area %}
+                                    {{ contact.research_area }}
+                                {% else %}
+                                    <span class="text-muted">—</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <span class="status-badge">
+                                    {{ contact.get_status_display }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {% if contact.follow_up_date %}
+                                    {{ contact.follow_up_date|date:"M d, Y" }}
+                                {% else %}
+                                    <span class="text-muted">—</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <div class="table-actions">
+                                    <a
+                                        href="{% url 'contacts:detail' contact.id %}"
+                                        class="table-action"
+                                    >
+                                        View
+                                    </a>
+
+                                    <a
+                                        href="{% url 'contacts:update' contact.id %}"
+                                        class="table-action"
+                                    >
+                                        Edit
+                                    </a>
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+
+            <h3>No contacts found</h3>
+
+            {% if current_status %}
+                <p>No contacts match the selected status.</p>
+
+                <a
+                    href="{% url 'contacts:list' %}"
+                    class="btn btn-secondary"
+                >
+                    Clear Filter
+                </a>
+            {% else %}
+                <p>
+                    Add professors, admissions officers, or other university contacts here.
+                </p>
+
+                <a
+                    href="{% url 'contacts:create' %}"
+                    class="btn btn-primary"
+                >
+                    Add Your First Contact
+                </a>
+            {% endif %}
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

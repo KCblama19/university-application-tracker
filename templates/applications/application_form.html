@@ -1,0 +1,302 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ page_title }} | Application Command Center
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <p class="breadcrumb">
+            <a href="{% url 'applications:list' %}">Applications</a>
+            / {{ page_title }}
+        </p>
+
+        <h1>{{ page_title }}</h1>
+
+        <p class="page-description">
+            Record the university application and keep its important
+            deadlines and submission details in one place.
+        </p>
+    </div>
+</div>
+
+<form method="post" class="form-layout">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+        <div class="form-errors">
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <section class="form-card">
+        <div class="form-card-header">
+            <h2>Application</h2>
+            <p>
+                Select the university first, then choose its program.
+            </p>
+        </div>
+
+        <div class="form-card-body">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.university.id_for_label }}">
+                        University
+                    </label>
+
+                    {{ form.university }}
+
+                    {% for error in form.university.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.program.id_for_label }}">
+                        Program
+                    </label>
+
+                    {{ form.program }}
+
+                    {% for error in form.program.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.scholarship.id_for_label }}">
+                        Scholarship
+                    </label>
+
+                    {{ form.scholarship }}
+
+                    {% for error in form.scholarship.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.status.id_for_label }}">
+                        Status
+                    </label>
+
+                    {{ form.status }}
+
+                    {% for error in form.status.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="form-card">
+        <div class="form-card-header">
+            <h2>Deadlines</h2>
+            <p>
+                Keep the important application dates visible.
+            </p>
+        </div>
+
+        <div class="form-card-body">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.application_deadline.id_for_label }}">
+                        Application Deadline
+                    </label>
+
+                    {{ form.application_deadline }}
+
+                    {% for error in form.application_deadline.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.scholarship_deadline.id_for_label }}">
+                        Scholarship Deadline
+                    </label>
+
+                    {{ form.scholarship_deadline }}
+
+                    {% for error in form.scholarship_deadline.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="form-card">
+        <div class="form-card-header">
+            <h2>Submission</h2>
+            <p>
+                Record portal and submission information when available.
+            </p>
+        </div>
+
+        <div class="form-card-body">
+
+            <div class="form-group">
+                <label for="{{ form.portal_url.id_for_label }}">
+                    Application Portal
+                </label>
+
+                {{ form.portal_url }}
+
+                {% for error in form.portal_url.errors %}
+                    <p class="field-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.submitted_at.id_for_label }}">
+                        Submitted At
+                    </label>
+
+                    {{ form.submitted_at }}
+
+                    {% for error in form.submitted_at.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.decision_at.id_for_label }}">
+                        Decision At
+                    </label>
+
+                    {{ form.decision_at }}
+
+                    {% for error in form.decision_at.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="form-card">
+        <div class="form-card-header">
+            <h2>Notes</h2>
+        </div>
+
+        <div class="form-card-body">
+            <div class="form-group">
+                <label for="{{ form.notes.id_for_label }}">
+                    Notes
+                </label>
+
+                {{ form.notes }}
+
+                {% for error in form.notes.errors %}
+                    <p class="field-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+
+    <div class="form-card-footer">
+        <a
+            href="{% if application %}{% url 'applications:detail' application.id %}{% else %}{% url 'applications:list' %}{% endif %}"
+            class="btn btn-secondary"
+        >
+            Cancel
+        </a>
+
+        <button type="submit" class="btn btn-primary">
+            {{ submit_label }}
+        </button>
+    </div>
+
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const universityField = document.getElementById(
+        "{{ form.university.id_for_label }}"
+    );
+
+    const programField = document.getElementById(
+        "{{ form.program.id_for_label }}"
+    );
+
+    if (!universityField || !programField) {
+        return;
+    }
+
+    universityField.addEventListener("change", function () {
+        const universityId = this.value;
+
+        programField.innerHTML = "";
+
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = universityId
+            ? "Loading programs..."
+            : "Select a university first";
+
+        programField.appendChild(defaultOption);
+
+        if (!universityId) {
+            return;
+        }
+
+        fetch(
+            `/applications/university/${universityId}/programs/`
+        )
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Unable to load programs.");
+                }
+
+                return response.json();
+            })
+            .then(programs => {
+                programField.innerHTML = "";
+
+                const placeholder = document.createElement("option");
+                placeholder.value = "";
+                placeholder.textContent = "Select a program";
+                programField.appendChild(placeholder);
+
+                programs.forEach(program => {
+                    const option = document.createElement("option");
+
+                    option.value = program.id;
+                    option.textContent = program.name;
+
+                    programField.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error(error);
+
+                programField.innerHTML = "";
+
+                const errorOption = document.createElement("option");
+                errorOption.value = "";
+                errorOption.textContent = "Unable to load programs";
+
+                programField.appendChild(errorOption);
+            });
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Documents | Application Command Center{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <p class="breadcrumb">Documents</p>
+        <h1>Documents</h1>
+        <p class="page-description">
+            Manage the documents you may need across your applications.
+        </p>
+    </div>
+
+    <a href="{% url 'documents:create' %}" class="btn btn-primary">
+        Add Document
+    </a>
+</div>
+
+<div class="content-card">
+    {% if documents %}
+        <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Document</th>
+                        <th>Type</th>
+                        <th>Issue Date</th>
+                        <th>Expiry Date</th>
+                        <th>Added</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for document in documents %}
+                        <tr>
+                            <td>
+                                <a
+                                    href="{% url 'documents:detail' document.id %}"
+                                    class="table-link"
+                                >
+                                    {{ document.name }}
+                                </a>
+                            </td>
+
+                            <td>
+                                {{ document.get_document_type_display }}
+                            </td>
+
+                            <td>
+                                {% if document.issue_date %}
+                                    {{ document.issue_date|date:"M d, Y" }}
+                                {% else %}
+                                    <span class="text-muted">Not set</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if document.expiry_date %}
+                                    {{ document.expiry_date|date:"M d, Y" }}
+                                {% else %}
+                                    <span class="text-muted">No expiry</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {{ document.created_at|date:"M d, Y" }}
+                            </td>
+
+                            <td class="table-actions">
+                                <a
+                                    href="{% url 'documents:detail' document.id %}"
+                                    class="table-action"
+                                >
+                                    View
+                                </a>
+
+                                <a
+                                    href="{% url 'documents:update' document.id %}"
+                                    class="table-action"
+                                >
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <h2>No documents yet</h2>
+
+            <p>
+                Upload documents such as your transcript, CV, passport,
+                study plan, or language certificate so they can be reused
+                across your applications.
+            </p>
+
+            <a
+                href="{% url 'documents:create' %}"
+                class="btn btn-primary"
+            >
+                Add Document
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

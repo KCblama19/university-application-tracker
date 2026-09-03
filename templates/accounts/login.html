@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Sign in — Application Command Center{% endblock %}
+
+{% block content %}
+
+<div class="auth-page">
+
+    <div class="auth-container">
+
+        <div class="auth-header">
+            <div class="brand-mark">AC</div>
+
+            <h1 class="auth-title">
+                Sign in
+            </h1>
+
+            <p class="auth-description">
+                Access your application command center.
+            </p>
+        </div>
+
+
+        <div class="surface auth-card">
+
+            <form method="post" novalidate>
+
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="message message-error">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+
+                <div class="form-group">
+
+                    <label
+                        for="{{ form.username.id_for_label }}"
+                        class="form-label"
+                    >
+                        Username
+                    </label>
+
+                    {{ form.username }}
+
+                    {% for error in form.username.errors %}
+                        <div class="form-errors">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label
+                        for="{{ form.password.id_for_label }}"
+                        class="form-label"
+                    >
+                        Password
+                    </label>
+
+                    {{ form.password }}
+
+                    {% for error in form.password.errors %}
+                        <div class="form-errors">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary auth-submit"
+                >
+                    Sign in
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <p class="auth-footer">
+            Don't have an account?
+            <a href="{% url 'accounts:register' %}">
+                Create one
+            </a>
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

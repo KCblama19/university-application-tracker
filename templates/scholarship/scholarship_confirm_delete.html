@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Scholarship | Application Tracker{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>Delete Scholarship</h1>
+
+        <p class="section-description">
+            Remove this scholarship from your tracker.
+        </p>
+    </div>
+
+</div>
+
+
+<div class="confirmation-content">
+
+    <div class="confirmation-message">
+
+        <h2>
+            Delete {{ scholarship.name }}?
+        </h2>
+
+        <p>
+            This will permanently remove the scholarship record.
+        </p>
+
+        <p class="text-muted">
+            If this scholarship is connected to an application,
+            Django will prevent deletion because the relationship
+            uses SET_NULL.
+        </p>
+
+    </div>
+
+
+    <form method="post" class="confirmation-actions">
+
+        {% csrf_token %}
+
+        <a
+            href="{% url 'scholarships:detail' scholarship.id %}"
+            class="btn btn-secondary"
+        >
+            Cancel
+        </a>
+
+        <button
+            type="submit"
+            class="btn btn-danger"
+        >
+            Delete Scholarship
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}Scholarships | Application Tracker{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>Scholarships</h1>
+
+        <p class="section-description">
+            Track scholarship opportunities, deadlines, and funding.
+        </p>
+    </div>
+
+    <a
+        href="{% url 'scholarships:create' %}"
+        class="btn btn-primary"
+    >
+        Add Scholarship
+    </a>
+
+</div>
+
+
+<div class="table-container">
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Scholarship</th>
+                <th>Provider</th>
+                <th>Type</th>
+                <th>Deadline</th>
+                <th>Stipend</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+
+            {% for scholarship in scholarships %}
+
+                <tr>
+
+                    <td>
+                        <a
+                            href="{% url 'scholarships:detail' scholarship.id %}"
+                            class="table-link"
+                        >
+                            {{ scholarship.name }}
+                        </a>
+                    </td>
+
+
+                    <td>
+                        {% if scholarship.provider %}
+                            {{ scholarship.provider }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+
+
+                    <td>
+                        {{ scholarship.get_scholarship_type_display }}
+                    </td>
+
+
+                    <td>
+                        {% if scholarship.deadline %}
+                            {{ scholarship.deadline|date:"M d, Y" }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+
+
+                    <td>
+                        {% if scholarship.stipend %}
+                            {{ scholarship.stipend|floatformat:2 }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+
+
+                    <td>
+
+                        <div class="table-actions">
+
+                            <a
+                                href="{% url 'scholarships:detail' scholarship.id %}"
+                                class="table-action"
+                            >
+                                View
+                            </a>
+
+                            <a
+                                href="{% url 'scholarships:update' scholarship.id %}"
+                                class="table-action"
+                            >
+                                Edit
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            {% empty %}
+
+                <tr>
+                    <td
+                        colspan="6"
+                        class="table-empty"
+                    >
+                        No scholarships have been added yet.
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

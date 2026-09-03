@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Applications | Application Command Center{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <p class="breadcrumb">Applications</p>
+        <h1>Applications</h1>
+        <p class="page-description">
+            Track the universities and programs you are applying to.
+        </p>
+    </div>
+
+    <a href="{% url 'applications:create' %}" class="btn btn-primary">
+        Add Application
+    </a>
+</div>
+
+<div class="content-card">
+    {% if applications %}
+        <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>University</th>
+                        <th>Program</th>
+                        <th>Scholarship</th>
+                        <th>Status</th>
+                        <th>Application Deadline</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for application in applications %}
+                        <tr>
+                            <td>
+                                <a
+                                    href="{% url 'applications:detail' application.id %}"
+                                    class="table-link"
+                                >
+                                    {{ application.university.name }}
+                                </a>
+                            </td>
+
+                            <td>
+                                {{ application.program.name }}
+                            </td>
+
+                            <td>
+                                {% if application.scholarship %}
+                                    {{ application.scholarship.name }}
+                                {% else %}
+                                    <span class="text-muted">None</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <span class="status status-{{ application.status|lower }}">
+                                    {{ application.get_status_display }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {% if application.application_deadline %}
+                                    {{ application.application_deadline|date:"M d, Y" }}
+                                {% else %}
+                                    <span class="text-muted">Not set</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="table-actions">
+                                <a
+                                    href="{% url 'applications:detail' application.id %}"
+                                    class="table-action"
+                                >
+                                    View
+                                </a>
+
+                                <a
+                                    href="{% url 'applications:update' application.id %}"
+                                    class="table-action"
+                                >
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <h2>No applications yet</h2>
+            <p>
+                Add your first application to start tracking deadlines,
+                scholarships, documents, and progress.
+            </p>
+
+            <a
+                href="{% url 'applications:create' %}"
+                class="btn btn-primary"
+            >
+                Add Application
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

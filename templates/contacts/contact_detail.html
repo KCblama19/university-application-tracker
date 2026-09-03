@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+
+{% block title %}{{ contact.name }}{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>{{ contact.name }}</h1>
+
+        <p class="section-description">
+            {{ contact.position|default:"University Contact" }}
+            {% if contact.university %}
+                · {{ contact.university.name }}
+            {% endif %}
+        </p>
+    </div>
+
+    <div class="page-actions">
+
+        <a
+            href="{% url 'contacts:update' contact.id %}"
+            class="btn btn-primary"
+        >
+            Edit Contact
+        </a>
+
+        <a
+            href="{% url 'contacts:delete' contact.id %}"
+            class="btn btn-danger"
+        >
+            Delete
+        </a>
+
+    </div>
+
+</div>
+
+
+<div class="detail-layout">
+
+    <div class="detail-card">
+
+        <div class="detail-section">
+
+            <h2>Contact Information</h2>
+
+            <div class="detail-grid">
+
+                <div class="detail-item">
+                    <span class="detail-label">Name</span>
+                    <span class="detail-value">
+                        {{ contact.name }}
+                    </span>
+                </div>
+
+
+                <div class="detail-item">
+                    <span class="detail-label">Position</span>
+                    <span class="detail-value">
+                        {{ contact.position|default:"Not specified" }}
+                    </span>
+                </div>
+
+
+                <div class="detail-item">
+                    <span class="detail-label">Department</span>
+                    <span class="detail-value">
+                        {{ contact.department|default:"Not specified" }}
+                    </span>
+                </div>
+
+
+                <div class="detail-item">
+                    <span class="detail-label">Email</span>
+
+                    <span class="detail-value">
+                        {% if contact.email %}
+                            <a
+                                href="mailto:{{ contact.email }}"
+                                class="detail-link"
+                            >
+                                {{ contact.email }}
+                            </a>
+                        {% else %}
+                            Not specified
+                        {% endif %}
+                    </span>
+                </div>
+
+
+                <div class="detail-item">
+                    <span class="detail-label">Research Area</span>
+                    <span class="detail-value">
+                        {{ contact.research_area|default:"Not specified" }}
+                    </span>
+                </div>
+
+
+                <div class="detail-item">
+                    <span class="detail-label">Status</span>
+                    <span class="detail-value">
+                        {{ contact.get_status_display }}
+                    </span>
+                </div>
+
+
+                <div class="detail-item">
+                    <span class="detail-label">Last Contacted</span>
+
+                    <span class="detail-value">
+                        {% if contact.last_contacted %}
+                            {{ contact.last_contacted|date:"F d, Y" }}
+                        {% else %}
+                            Not contacted yet
+                        {% endif %}
+                    </span>
+                </div>
+
+
+                <div class="detail-item">
+                    <span class="detail-label">Follow-Up Date</span>
+
+                    <span class="detail-value">
+                        {% if contact.follow_up_date %}
+                            {{ contact.follow_up_date|date:"F d, Y" }}
+                        {% else %}
+                            No follow-up scheduled
+                        {% endif %}
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="detail-section">
+
+            <h2>University</h2>
+
+            <div class="detail-item">
+
+                <span class="detail-label">University</span>
+
+                <span class="detail-value">
+                    <a
+                        href="{% url 'universities:detail' contact.university.id %}"
+                        class="detail-link"
+                    >
+                        {{ contact.university.name }}
+                    </a>
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="detail-section">
+
+            <h2>Application</h2>
+
+            {% if contact.application %}
+
+                <div class="detail-grid">
+
+                    <div class="detail-item">
+                        <span class="detail-label">Program</span>
+
+                        <span class="detail-value">
+                            {{ contact.application.program.name }}
+                        </span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Status</span>
+
+                        <span class="detail-value">
+                            {{ contact.application.get_status_display }}
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="section-actions">
+
+                    <a
+                        href="{% url 'applications:detail' contact.application.id %}"
+                        class="btn btn-secondary"
+                    >
+                        View Application
+                    </a>
+
+                </div>
+
+            {% else %}
+
+                <p class="text-muted">
+                    This contact is not associated with a specific application.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        {% if contact.notes %}
+
+            <div class="detail-section">
+
+                <h2>Notes</h2>
+
+                <div class="detail-long-text">
+                    {{ contact.notes|linebreaks }}
+                </div>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
