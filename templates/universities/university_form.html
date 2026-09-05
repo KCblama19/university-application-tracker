@@ -1,39 +1,123 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block title %}
+    {{ page_title }} — Application Command Center
+{% endblock %}
 
-<h1>{{ page_title }}</h1>
+{% block universities_nav %}active{% endblock %}
 
-<form method="post">
-    {% csrf_token %}
-
-    {{ form.non_field_errors }}
-
-    {% for field in form %}
-        <div>
-            <label for="{{ field.id_for_label }}">
-                {{ field.label }}
-            </label>
-
-            {{ field }}
-
-            {% if field.help_text %}
-                <small>{{ field.help_text }}</small>
-            {% endif %}
-
-            {% for error in field.errors %}
-                <p>{{ error }}</p>
-            {% endfor %}
-        </div>
-    {% endfor %}
-
-    <button type="submit">
-        {{ submit_label }}
-    </button>
+{% block breadcrumb %}
 
     <a href="{% url 'universities:list' %}">
-        Cancel
+        Universities
     </a>
-</form>
+
+    <span class="breadcrumb-separator">/</span>
+
+    <span class="breadcrumb-current">
+        {{ page_title }}
+    </span>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-header">
+
+    <div class="page-header-text">
+
+        <h1 class="page-title">
+            {{ page_title }}
+        </h1>
+
+        <p class="page-description">
+            Keep the university information you need for your application planning.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="form-layout">
+
+    <section class="surface">
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <div class="form-card-body">
+
+                {% if form.non_field_errors %}
+
+                    <div class="form-errors">
+                        {{ form.non_field_errors }}
+                    </div>
+
+                {% endif %}
+
+
+                {% for field in form %}
+
+                    <div class="form-group">
+
+                        <label
+                            for="{{ field.id_for_label }}"
+                            class="form-label"
+                        >
+                            {{ field.label }}
+                        </label>
+
+                        {{ field }}
+
+                        {% if field.help_text %}
+
+                            <div class="form-help">
+                                {{ field.help_text }}
+                            </div>
+
+                        {% endif %}
+
+
+                        {% for error in field.errors %}
+
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div class="form-card-footer">
+
+                <a
+                    href="{% if university %}{% url 'universities:detail' university.pk %}{% else %}{% url 'universities:list' %}{% endif %}"
+                    class="btn btn-secondary"
+                >
+                    Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    {{ submit_label }}
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</div>
 
 {% endblock %}

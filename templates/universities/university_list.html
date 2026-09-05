@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}Universities — Application Command Center{% endblock %}
+{% block title %}
+    Universities — Application Command Center
+{% endblock %}
 
 {% block universities_nav %}active{% endblock %}
 
@@ -32,7 +34,7 @@
 </div>
 
 
-<div class="surface">
+<section class="surface">
 
     <div class="surface-header">
 
@@ -55,11 +57,11 @@
 
                 <thead>
                     <tr>
-                        <th>University</th>
-                        <th>Location</th>
-                        <th>Ranking</th>
-                        <th>Programs</th>
-                        <th></th>
+                        <th scope="col">University</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Ranking</th>
+                        <th scope="col">Programs</th>
+                        <th scope="col"><span class="sr-only">Actions</span></th>
                     </tr>
                 </thead>
 
@@ -79,8 +81,8 @@
                             </td>
 
                             <td>
-                                {{ university.city }},
-                                {{ university.country }}
+                                {{ university.city|default:"—" }},
+                                {{ university.country|default:"—" }}
                             </td>
 
                             <td>
@@ -95,22 +97,24 @@
                                 {{ university.programs.count }}
                             </td>
 
-                            <td class="table-actions">
+                            <td>
+                                <div class="table-actions">
 
-                                <a
-                                    href="{% url 'universities:detail' university.pk %}"
-                                    class="table-action"
-                                >
-                                    View
-                                </a>
+                                    <a
+                                        href="{% url 'universities:detail' university.pk %}"
+                                        class="table-action"
+                                    >
+                                        View
+                                    </a>
 
-                                <a
-                                    href="{% url 'universities:update' university.pk %}"
-                                    class="table-action"
-                                >
-                                    Edit
-                                </a>
+                                    <a
+                                        href="{% url 'universities:update' university.pk %}"
+                                        class="table-action"
+                                    >
+                                        Edit
+                                    </a>
 
+                                </div>
                             </td>
 
                         </tr>
@@ -147,6 +151,6 @@
 
     {% endif %}
 
-</div>
+</section>
 
 {% endblock %}

@@ -1,0 +1,71 @@
+/* =========================================================
+   Documents
+   ========================================================= */
+
+.document-file {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.document-checklist {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.document-checklist-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    padding: 12px 14px;
+
+    background: var(--color-surface);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    transition:
+        background-color var(--transition-fast),
+        border-color var(--transition-fast);
+}
+
+.document-checklist-item:hover {
+    background: var(--color-surface-muted);
+    border-color: var(--color-border-strong);
+}
+
+.document-checklist-item-content {
+    min-width: 0;
+}
+
+.document-checklist-item-title {
+    color: var(--color-text);
+
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.document-checklist-item-description {
+    margin-top: 3px;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.74rem;
+}
+
+@media (max-width: 768px) {
+    .document-file {
+        align-items: flex-start;
+    }
+
+    .document-checklist-item {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

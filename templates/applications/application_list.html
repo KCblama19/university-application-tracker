@@ -1,34 +1,45 @@
 {% extends "base.html" %}
 
-{% block title %}Applications | Application Command Center{% endblock %}
+{% block title %}
+    Applications | Application Command Center
+{% endblock %}
 
 {% block content %}
 <div class="page-header">
-    <div>
+    <div class="page-header-text">
         <p class="breadcrumb">Applications</p>
-        <h1>Applications</h1>
+
+        <h1 class="page-title">Applications</h1>
+
         <p class="page-description">
             Track the universities and programs you are applying to.
         </p>
     </div>
 
-    <a href="{% url 'applications:create' %}" class="btn btn-primary">
-        Add Application
-    </a>
+    <div class="page-actions">
+        <a
+            href="{% url 'applications:create' %}"
+            class="btn btn-primary"
+        >
+            Add Application
+        </a>
+    </div>
 </div>
 
-<div class="content-card">
+<section class="surface">
     {% if applications %}
         <div class="table-wrapper">
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>University</th>
-                        <th>Program</th>
-                        <th>Scholarship</th>
-                        <th>Status</th>
-                        <th>Application Deadline</th>
-                        <th></th>
+                        <th scope="col">University</th>
+                        <th scope="col">Program</th>
+                        <th scope="col">Scholarship</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Application Deadline</th>
+                        <th scope="col">
+                            <span class="sr-only">Actions</span>
+                        </th>
                     </tr>
                 </thead>
 
@@ -57,7 +68,7 @@
                             </td>
 
                             <td>
-                                <span class="status status-{{ application.status|lower }}">
+                                <span class="status-badge status-{{ application.status|lower }}">
                                     {{ application.get_status_display }}
                                 </span>
                             </td>
@@ -93,6 +104,7 @@
     {% else %}
         <div class="empty-state">
             <h2>No applications yet</h2>
+
             <p>
                 Add your first application to start tracking deadlines,
                 scholarships, documents, and progress.
@@ -106,5 +118,5 @@
             </a>
         </div>
     {% endif %}
-</div>
+</section>
 {% endblock %}

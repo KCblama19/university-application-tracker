@@ -8,13 +8,13 @@
 {% block content %}
 
 <div class="page-header">
-    <div>
+    <div class="page-header-text">
         <p class="breadcrumb">
             <a href="{% url 'applications:list' %}">Applications</a>
             / {{ application.university.name }}
         </p>
 
-        <h1>{{ application.program.name }}</h1>
+        <h1 class="page-title">{{ application.program.name }}</h1>
 
         <p class="page-description">
             {{ application.university.name }}
@@ -39,15 +39,10 @@
 </div>
 
 
-<!-- =========================================================
-     APPLICATION STATUS
-     ========================================================= -->
-
 <section class="detail-section">
-
     <div class="detail-section-header">
         <div>
-            <h2>Application Status</h2>
+            <h2 class="detail-section-title">Application Status</h2>
 
             <p class="section-description">
                 Current progress of this application.
@@ -56,8 +51,7 @@
     </div>
 
     <div class="application-status">
-
-        <span class="status status-{{ application.status|lower }}">
+        <span class="status-badge status-{{ application.status|lower }}">
             {{ application.get_status_display }}
         </span>
 
@@ -67,21 +61,14 @@
                 {{ application.status_updated_at|date:"F d, Y, g:i A" }}
             </span>
         {% endif %}
-
     </div>
-
 </section>
 
 
-<!-- =========================================================
-     APPLICATION INFORMATION
-     ========================================================= -->
-
 <section class="detail-section">
-
     <div class="detail-section-header">
         <div>
-            <h2>Application Information</h2>
+            <h2 class="detail-section-title">Application Information</h2>
 
             <p class="section-description">
                 University, program, scholarship, and application details.
@@ -89,18 +76,15 @@
         </div>
     </div>
 
-
     <div class="detail-grid">
 
         <div class="detail-item">
-            <span class="detail-label">
-                University
-            </span>
+            <span class="detail-item-label">University</span>
 
-            <span class="detail-value">
+            <span class="detail-item-value">
                 <a
                     href="{% url 'universities:detail' application.university.id %}"
-                    class="detail-link"
+                    class="table-link"
                 >
                     {{ application.university.name }}
                 </a>
@@ -109,190 +93,121 @@
 
 
         <div class="detail-item">
-            <span class="detail-label">
-                Program
-            </span>
+            <span class="detail-item-label">Program</span>
 
-            <span class="detail-value">
+            <span class="detail-item-value">
                 {{ application.program.name }}
             </span>
         </div>
 
 
         <div class="detail-item">
-            <span class="detail-label">
-                Degree
-            </span>
+            <span class="detail-item-label">Degree</span>
 
-            <span class="detail-value">
+            <span class="detail-item-value">
                 {{ application.program.get_degree_type_display }}
             </span>
         </div>
 
 
         <div class="detail-item">
-            <span class="detail-label">
-                Study Language
-            </span>
+            <span class="detail-item-label">Study Language</span>
 
-            <span class="detail-value">
+            <span class="detail-item-value">
                 {{ application.program.get_study_language_display }}
             </span>
         </div>
 
 
         <div class="detail-item">
+            <span class="detail-item-label">Scholarship</span>
 
-            <span class="detail-label">
-                Scholarship
-            </span>
-
-            <span class="detail-value">
-
+            <span class="detail-item-value">
                 {% if application.scholarship %}
-
                     <a
                         href="{% url 'scholarships:detail' application.scholarship.id %}"
-                        class="detail-link"
+                        class="table-link"
                     >
                         {{ application.scholarship.name }}
                     </a>
-
                 {% else %}
-
                     <span class="text-muted">
                         No scholarship selected
                     </span>
-
                 {% endif %}
-
             </span>
-
         </div>
 
 
         <div class="detail-item">
-
-            <span class="detail-label">
+            <span class="detail-item-label">
                 Application Deadline
             </span>
 
-            <span class="detail-value">
-
+            <span class="detail-item-value">
                 {% if application.application_deadline %}
-
                     {{ application.application_deadline|date:"F d, Y" }}
-
                 {% else %}
-
-                    <span class="text-muted">
-                        Not set
-                    </span>
-
+                    <span class="text-muted">Not set</span>
                 {% endif %}
-
             </span>
-
         </div>
 
 
         <div class="detail-item">
-
-            <span class="detail-label">
+            <span class="detail-item-label">
                 Scholarship Deadline
             </span>
 
-            <span class="detail-value">
-
+            <span class="detail-item-value">
                 {% if application.scholarship_deadline %}
-
                     {{ application.scholarship_deadline|date:"F d, Y" }}
-
                 {% else %}
-
-                    <span class="text-muted">
-                        Not set
-                    </span>
-
+                    <span class="text-muted">Not set</span>
                 {% endif %}
-
             </span>
-
         </div>
 
 
         <div class="detail-item">
+            <span class="detail-item-label">Submitted</span>
 
-            <span class="detail-label">
-                Submitted
-            </span>
-
-            <span class="detail-value">
-
+            <span class="detail-item-value">
                 {% if application.submitted_at %}
-
                     {{ application.submitted_at|date:"F d, Y, g:i A" }}
-
                 {% else %}
-
-                    <span class="text-muted">
-                        Not submitted
-                    </span>
-
+                    <span class="text-muted">Not submitted</span>
                 {% endif %}
-
             </span>
-
         </div>
 
 
         <div class="detail-item">
+            <span class="detail-item-label">Decision</span>
 
-            <span class="detail-label">
-                Decision
-            </span>
-
-            <span class="detail-value">
-
+            <span class="detail-item-value">
                 {% if application.decision_at %}
-
                     {{ application.decision_at|date:"F d, Y, g:i A" }}
-
                 {% else %}
-
-                    <span class="text-muted">
-                        Not decided
-                    </span>
-
+                    <span class="text-muted">Not decided</span>
                 {% endif %}
-
             </span>
-
         </div>
 
     </div>
-
 </section>
 
 
-<!-- =========================================================
-     APPLICATION PORTAL
-     ========================================================= -->
-
 {% if application.portal_url %}
-
 <section class="detail-section">
-
     <div class="detail-section-header">
-
         <div>
-            <h2>Application Portal</h2>
+            <h2 class="detail-section-title">Application Portal</h2>
 
             <p class="section-description">
                 Access the university's application system.
             </p>
         </div>
-
     </div>
 
     <a
@@ -303,22 +218,14 @@
     >
         Open Application Portal ↗
     </a>
-
 </section>
-
 {% endif %}
 
 
-<!-- =========================================================
-     TASKS
-     ========================================================= -->
-
 <section class="detail-section">
-
-    <div class="section-header">
-
+    <div class="detail-section-header">
         <div>
-            <h2>Tasks</h2>
+            <h2 class="detail-section-title">Tasks</h2>
 
             <p class="section-description">
                 Manage work that needs to be completed for this application.
@@ -331,9 +238,7 @@
         >
             Add Task
         </a>
-
     </div>
-
 
     {% for task in application.tasks.all %}
 
@@ -341,60 +246,48 @@
             <div class="task-list">
         {% endif %}
 
-            <div class="task-item">
+        <div class="task-item">
+            <div>
+                <a
+                    href="{% url 'tasks:detail' task.id %}"
+                    class="table-link"
+                >
+                    {{ task.title }}
+                </a>
 
-                <div>
-                    <a
-                        href="{% url 'tasks:detail' task.id %}"
-                        class="table-link"
-                    >
-                        {{ task.title }}
-                    </a>
-
-                    {% if task.description %}
-                        <div class="task-description text-muted">
-                            {{ task.description|truncatewords:15 }}
-                        </div>
-                    {% endif %}
-                </div>
-
-
-                <div class="task-meta">
-
-                    {% if task.due_date %}
-
-                        <span class="task-date">
-                            Due: {{ task.due_date|date:"M d, Y" }}
-                        </span>
-
-                        {% if task.is_overdue %}
-
-                            <span class="status-danger">
-                                Overdue
-                            </span>
-
-                        {% endif %}
-
-                    {% else %}
-
-                        <span class="text-muted">
-                            No deadline
-                        </span>
-
-                    {% endif %}
-
-
-                    <span class="status-badge">
-                        {{ task.get_status_display }}
-                    </span>
-
-                    <span class="text-muted">
-                        {{ task.get_priority_display }}
-                    </span>
-
-                </div>
-
+                {% if task.description %}
+                    <div class="task-description text-muted">
+                        {{ task.description|truncatewords:15 }}
+                    </div>
+                {% endif %}
             </div>
+
+            <div class="task-meta">
+                {% if task.due_date %}
+                    <span class="task-date">
+                        Due: {{ task.due_date|date:"M d, Y" }}
+                    </span>
+
+                    {% if task.is_overdue %}
+                        <span class="status-danger">
+                            Overdue
+                        </span>
+                    {% endif %}
+                {% else %}
+                    <span class="text-muted">
+                        No deadline
+                    </span>
+                {% endif %}
+
+                <span class="status-badge">
+                    {{ task.get_status_display }}
+                </span>
+
+                <span class="text-muted">
+                    {{ task.get_priority_display }}
+                </span>
+            </div>
+        </div>
 
         {% if forloop.last %}
             </div>
@@ -403,7 +296,6 @@
     {% empty %}
 
         <div class="table-empty">
-
             <p>
                 No tasks have been scheduled for this application yet.
             </p>
@@ -414,24 +306,16 @@
             >
                 Add First Task
             </a>
-
         </div>
 
     {% endfor %}
-
 </section>
 
 
-<!-- =========================================================
-     DOCUMENTS
-     ========================================================= -->
-
 <section class="detail-section">
-
-    <div class="section-header">
-
+    <div class="detail-section-header">
         <div>
-            <h2>Documents</h2>
+            <h2 class="detail-section-title">Documents</h2>
 
             <p class="section-description">
                 Track the documents required for this application.
@@ -444,9 +328,7 @@
         >
             Add Requirement
         </a>
-
     </div>
-
 
     {% for application_document in application.application_documents.all %}
 
@@ -454,110 +336,84 @@
             <div class="document-checklist">
         {% endif %}
 
-            <div class="document-checklist-item">
+        <div class="document-checklist-item">
+            <div class="document-checklist-main">
 
-                <div class="document-checklist-main">
-
-                    <div class="document-checklist-icon">
-
-                        {% if application_document.document %}
-                            ✓
-                        {% else %}
-                            —
-                        {% endif %}
-
-                    </div>
-
-
-                    <div>
-
-                        <div class="document-checklist-name">
-                            {{ application_document.get_document_type_display }}
-                        </div>
-
-
-                        {% if application_document.document %}
-
-                            <div class="document-checklist-file">
-
-                                <a
-                                    href="{% url 'documents:detail' application_document.document.id %}"
-                                    class="table-link"
-                                >
-                                    {{ application_document.document.name }}
-                                </a>
-
-                            </div>
-
-                        {% else %}
-
-                            <div class="document-checklist-file">
-                                No document attached
-                            </div>
-
-                        {% endif %}
-
-                    </div>
-
+                <div class="document-checklist-icon">
+                    {% if application_document.document %}
+                        ✓
+                    {% else %}
+                        —
+                    {% endif %}
                 </div>
 
-
-                <div class="document-checklist-meta">
-
-                    <span class="application-status status-{{ application_document.status|lower }}">
-                        {{ application_document.get_status_display }}
-                    </span>
-
-
-                    {% if application_document.required %}
-
-                        <span class="document-required">
-                            Required
-                        </span>
-
-                    {% else %}
-
-                        <span class="text-muted">
-                            Optional
-                        </span>
-
-                    {% endif %}
-
-
-                    <div class="table-actions">
-
-                        {% if application_document.document %}
-
-                            <a
-                                href="{% url 'documents:detail' application_document.document.id %}"
-                                class="table-action"
-                            >
-                                View
-                            </a>
-
-                        {% endif %}
-
-
-                        <a
-                            href="{% url 'documents:application_document_update' application_document.id %}"
-                            class="table-action"
-                        >
-                            Edit
-                        </a>
-
-
-                        <a
-                            href="{% url 'documents:application_document_delete' application_document.id %}"
-                            class="table-action"
-                        >
-                            Delete
-                        </a>
-
+                <div>
+                    <div class="document-checklist-name">
+                        {{ application_document.get_document_type_display }}
                     </div>
 
+                    {% if application_document.document %}
+                        <div class="document-checklist-file">
+                            <a
+                                href="{% url 'documents:detail' application_document.document.id %}"
+                                class="table-link"
+                            >
+                                {{ application_document.document.name }}
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="document-checklist-file">
+                            No document attached
+                        </div>
+                    {% endif %}
                 </div>
 
             </div>
+
+            <div class="document-checklist-meta">
+
+                <span class="status-badge status-{{ application_document.status|lower }}">
+                    {{ application_document.get_status_display }}
+                </span>
+
+                {% if application_document.required %}
+                    <span class="document-required">
+                        Required
+                    </span>
+                {% else %}
+                    <span class="text-muted">
+                        Optional
+                    </span>
+                {% endif %}
+
+                <div class="table-actions">
+
+                    {% if application_document.document %}
+                        <a
+                            href="{% url 'documents:detail' application_document.document.id %}"
+                            class="table-action"
+                        >
+                            View
+                        </a>
+                    {% endif %}
+
+                    <a
+                        href="{% url 'documents:application_document_update' application_document.id %}"
+                        class="table-action"
+                    >
+                        Edit
+                    </a>
+
+                    <a
+                        href="{% url 'documents:application_document_delete' application_document.id %}"
+                        class="table-action table-action-danger"
+                    >
+                        Delete
+                    </a>
+
+                </div>
+            </div>
+        </div>
 
         {% if forloop.last %}
             </div>
@@ -566,7 +422,6 @@
     {% empty %}
 
         <div class="table-empty">
-
             <p>
                 No document requirements have been added yet.
             </p>
@@ -577,24 +432,16 @@
             >
                 Add First Requirement
             </a>
-
         </div>
 
     {% endfor %}
-
 </section>
 
 
-<!-- =========================================================
-     CONTACTS
-     ========================================================= -->
-
 <section class="detail-section">
-
-    <div class="section-header">
-
+    <div class="detail-section-header">
         <div>
-            <h2>Contacts</h2>
+            <h2 class="detail-section-title">Contacts</h2>
 
             <p class="section-description">
                 Professors and university contacts associated with this application.
@@ -607,125 +454,87 @@
         >
             Add Contact
         </a>
-
     </div>
-
 
     {% for contact in application.contacts.all %}
 
         {% if forloop.first %}
-
             <div class="table-wrapper">
-
                 <table class="data-table">
-
                     <thead>
-
                         <tr>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Follow-up</th>
-                            <th>Actions</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Position</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Follow-up</th>
+                            <th scope="col">
+                                <span class="sr-only">Actions</span>
+                            </th>
                         </tr>
-
                     </thead>
 
                     <tbody>
-
         {% endif %}
 
                         <tr>
-
                             <td>
-
                                 <a
                                     href="{% url 'contacts:detail' contact.id %}"
                                     class="table-link"
                                 >
                                     {{ contact.name }}
                                 </a>
-
                             </td>
-
 
                             <td>
                                 {{ contact.position|default:"—" }}
                             </td>
 
-
                             <td>
-
                                 {% if contact.email %}
-
                                     <a
                                         href="mailto:{{ contact.email }}"
                                         class="table-link"
                                     >
                                         {{ contact.email }}
                                     </a>
-
                                 {% else %}
-
-                                    <span class="text-muted">
-                                        —
-                                    </span>
-
+                                    <span class="text-muted">—</span>
                                 {% endif %}
-
                             </td>
-
 
                             <td>
                                 {{ contact.get_status_display }}
                             </td>
 
-
                             <td>
-
                                 {% if contact.follow_up_date %}
-
                                     {{ contact.follow_up_date|date:"M d, Y" }}
-
                                 {% else %}
-
-                                    <span class="text-muted">
-                                        —
-                                    </span>
-
+                                    <span class="text-muted">—</span>
                                 {% endif %}
-
                             </td>
 
-
-                            <td>
-
+                            <td class="table-actions">
                                 <a
                                     href="{% url 'contacts:update' contact.id %}"
                                     class="table-action"
                                 >
                                     Edit
                                 </a>
-
                             </td>
-
                         </tr>
 
         {% if forloop.last %}
-
                     </tbody>
-
                 </table>
-
             </div>
-
         {% endif %}
 
     {% empty %}
 
         <div class="table-empty">
-
             <p>
                 No contacts are associated with this application.
             </p>
@@ -736,47 +545,32 @@
             >
                 Add First Contact
             </a>
-
         </div>
 
     {% endfor %}
-
 </section>
 
 
-<!-- =========================================================
-     NOTES
-     ========================================================= -->
-
 <section class="detail-section">
-
     <div class="detail-section-header">
-
         <div>
-            <h2>Notes</h2>
+            <h2 class="detail-section-title">Notes</h2>
 
             <p class="section-description">
                 Additional information about this application.
             </p>
         </div>
-
     </div>
 
-
     {% if application.notes %}
-
         <div class="detail-long-text">
             {{ application.notes|linebreaks }}
         </div>
-
     {% else %}
-
         <p class="text-muted">
             No notes have been added.
         </p>
-
     {% endif %}
-
 </section>
 
 {% endblock %}

@@ -2,8 +2,11 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -13,167 +16,347 @@
         {% block title %}Application Command Center{% endblock %}
     </title>
 
-    <meta
-        name="description"
-        content="Personal university application management system."
+
+    <!-- =====================================================
+         Bootstrap
+         ===================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
     >
+
+
+    <!-- =====================================================
+         Bootstrap Icons
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+
+
+    <!-- =====================================================
+         Application CSS
+         ===================================================== -->
 
     <link
         rel="stylesheet"
         href="{% static 'css/app.css' %}"
     >
 
+
     {% block extra_css %}{% endblock %}
+
 </head>
+
 
 <body>
 
 <div class="app-shell">
 
-    <!-- Mobile header -->
-    <header class="mobile-header">
-        <a href="{% url 'dashboard:home' %}" class="brand">
-            <span class="brand-mark">AC</span>
-            <span class="brand-name">Application Command Center</span>
+
+    <!-- =====================================================
+         MOBILE HEADER
+         Bootstrap controls visibility.
+         ===================================================== -->
+
+    <header class="mobile-header d-flex d-lg-none">
+
+        <a
+            href="{% url 'dashboard:home' %}"
+            class="brand text-decoration-none"
+        >
+
+            <span class="brand-name">
+                Application Command Center
+            </span>
+
         </a>
 
+
         <button
-            type="button"
             class="mobile-menu-button"
-            id="mobile-menu-button"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#sidebar"
+            aria-controls="sidebar"
             aria-label="Open navigation"
-            aria-expanded="false"
         >
-            ☰
+
+            <i class="bi bi-list"></i>
+
         </button>
+
     </header>
 
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
+
+    <!-- =====================================================
+         SIDEBAR
+         Bootstrap Offcanvas:
+         - Mobile: offcanvas drawer
+         - Desktop: fixed sidebar
+         ===================================================== -->
+
+    <aside
+        id="sidebar"
+        class="sidebar offcanvas offcanvas-start offcanvas-lg"
+        tabindex="-1"
+        aria-labelledby="sidebarLabel"
+    >
+
+
+        <!-- =================================================
+             Sidebar brand
+             ================================================= -->
 
         <div class="sidebar-brand">
-            <a href="{% url 'dashboard:home' %}" class="brand">
-                <span class="brand-mark">AC</span>
 
-                <span>
+            <a
+                href="{% url 'dashboard:home' %}"
+                class="brand text-decoration-none"
+                id="sidebarLabel"
+            >
+
+                <span class="brand-text">
+
                     <span class="brand-name">
                         Application
                     </span>
+
                     <span class="brand-subtitle">
                         Command Center
                     </span>
+
                 </span>
+
             </a>
+
+
+            <!-- Desktop collapse button -->
+
+            <button
+                type="button"
+                id="sidebar-rail-toggle"
+                class="sidebar-rail-toggle d-none d-lg-inline-flex"
+                aria-label="Collapse sidebar"
+                aria-expanded="true"
+                title="Collapse sidebar"
+            >
+
+                <i class="bi bi-chevron-left"></i>
+
+            </button>
+
         </div>
 
-        <nav class="sidebar-navigation">
+
+        <!-- =================================================
+             Sidebar navigation
+             ================================================= -->
+
+        <nav class="sidebar-nav">
+
+            <!-- Main -->
 
             <div class="nav-section">
+
                 <span class="nav-section-label">
-                    Workspace
+                    Main
                 </span>
+
 
                 <a
                     href="{% url 'dashboard:home' %}"
                     class="nav-link {% block dashboard_nav %}{% endblock %}"
                 >
-                    <span class="nav-icon">⌂</span>
-                    <span>Dashboard</span>
+
+                    <i class="bi bi-grid-1x2"></i>
+
+                    <span>
+                        Dashboard
+                    </span>
+
                 </a>
-            </div>
 
-
-            <div class="nav-section">
-                <span class="nav-section-label">
-                    Applications
-                </span>
 
                 <a
                     href="{% url 'universities:list' %}"
                     class="nav-link {% block universities_nav %}{% endblock %}"
                 >
-                    <span class="nav-icon">▣</span>
-                    <span>Universities</span>
+
+                    <i class="bi bi-building"></i>
+
+                    <span>
+                        Universities
+                    </span>
+
                 </a>
+
 
                 <a
                     href="{% url 'applications:list' %}"
                     class="nav-link {% block applications_nav %}{% endblock %}"
                 >
-                    <span class="nav-icon">□</span>
-                    <span>Applications</span>
+
+                    <i class="bi bi-file-earmark-text"></i>
+
+                    <span>
+                        Applications
+                    </span>
+
                 </a>
 
+
                 <a
-                    {% comment %} href="{% url 'scholarships:list' %}" {% endcomment %}
+                    href="{% url 'scholarships:list' %}"
                     class="nav-link {% block scholarships_nav %}{% endblock %}"
                 >
-                    <span class="nav-icon">◇</span>
-                    <span>Scholarships</span>
+
+                    <i class="bi bi-mortarboard"></i>
+
+                    <span>
+                        Scholarships
+                    </span>
+
                 </a>
+
             </div>
 
 
+            <!-- Management -->
+
             <div class="nav-section">
+
                 <span class="nav-section-label">
-                    Resources
+                    Management
                 </span>
+
 
                 <a
                     href="{% url 'documents:list' %}"
                     class="nav-link {% block documents_nav %}{% endblock %}"
                 >
-                    <span class="nav-icon">▤</span>
-                    <span>Documents</span>
+
+                    <i class="bi bi-folder2-open"></i>
+
+                    <span>
+                        Documents
+                    </span>
+
                 </a>
 
+
                 <a
-                    {% comment %} href="{% url 'contacts:list' %}" {% endcomment %}
+                    href="{% url 'contacts:list' %}"
                     class="nav-link {% block contacts_nav %}{% endblock %}"
                 >
-                    <span class="nav-icon">◎</span>
-                    <span>Contacts</span>
+
+                    <i class="bi bi-person-lines-fill"></i>
+
+                    <span>
+                        Contacts
+                    </span>
+
                 </a>
 
+
                 <a
-                    {% comment %} href="{% url 'tasks:list' %}" {% endcomment %}
+                    href="{% url 'tasks:list' %}"
                     class="nav-link {% block tasks_nav %}{% endblock %}"
                 >
-                    <span class="nav-icon">✓</span>
-                    <span>Tasks</span>
+
+                    <i class="bi bi-check2-square"></i>
+
+                    <span>
+                        Tasks
+                    </span>
+
                 </a>
+
             </div>
 
         </nav>
 
 
+        <!-- =================================================
+             Sidebar footer
+             ================================================= -->
+
         <div class="sidebar-footer">
 
-            {% if request.user.is_authenticated %}
+            <div class="user-profile">
 
-                <div class="user-profile">
 
-                    <div class="user-avatar">
-                        {{ request.user.username|first|upper }}
+                <div class="user-avatar">
+
+                    {% if user.is_authenticated %}
+
+                        {{ user.first_name|first|default:user.username|first|upper }}
+
+                    {% else %}
+
+                        ?
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="user-information">
+
+                    <div class="user-name">
+
+                        {% if user.is_authenticated %}
+
+                            {{ user.get_full_name|default:user.username }}
+
+                        {% else %}
+
+                            Guest
+
+                        {% endif %}
+
                     </div>
 
-                    <div class="user-information">
-                        <span class="user-name">
-                            {{ request.user.get_full_name|default:request.user.username }}
-                        </span>
 
-                        <span class="user-email">
-                            {{ request.user.email }}
-                        </span>
+                    <div class="user-role">
+
+                        {% if user.is_authenticated %}
+
+                            {% if user.is_staff %}
+
+                                Administrator
+
+                            {% else %}
+
+                                Applicant
+
+                            {% endif %}
+
+                        {% endif %}
+
                     </div>
 
                 </div>
 
+            </div>
+
+
+            {% if user.is_authenticated %}
+
                 <a
                     href="{% url 'accounts:logout' %}"
-                    class="logout-link"
+                    class="logout-link text-decoration-none"
                 >
-                    Sign out
+
+                    <i class="bi bi-box-arrow-right"></i>
+
+                    <span>
+                        Sign out
+                    </span>
+
                 </a>
 
             {% endif %}
@@ -183,44 +366,61 @@
     </aside>
 
 
-    <!-- Main application area -->
+    <!-- =====================================================
+         MAIN AREA
+         ===================================================== -->
+
     <div class="main-area">
 
-        <header class="topbar">
 
-            <div class="breadcrumb-area">
+        <!-- Desktop topbar -->
+
+        <header class="topbar d-none d-lg-flex">
+
+            <div class="breadcrumb-current">
+
                 {% block breadcrumb %}
-                <span class="breadcrumb-current">
-                    Dashboard
-                </span>
+
+                    Application Command Center
+
                 {% endblock %}
+
             </div>
+
 
             <div class="topbar-actions">
 
-                <a
-                    href="{% url 'tasks:list' %}"
-                    class="topbar-action"
-                    title="Tasks"
-                >
-                    Tasks
-                </a>
+                {% block topbar_actions %}
+                {% endblock %}
 
             </div>
 
         </header>
 
 
+        <!-- =================================================
+             Page content
+             ================================================= -->
+
         <main class="main-content">
 
+
             {% if messages %}
+
                 <div class="messages">
+
                     {% for message in messages %}
+
                         <div class="message message-{{ message.tags }}">
+
                             {{ message }}
+
                         </div>
+
                     {% endfor %}
+
                 </div>
+
             {% endif %}
 
 
@@ -234,9 +434,32 @@
 </div>
 
 
-<script src="{% static 'js/app.js' %}"></script>
+<!-- =========================================================
+     Bootstrap JavaScript
+     Must load before application JavaScript.
+     ========================================================= -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+<!-- Application-wide JavaScript -->
+
+<script
+    src="{% static 'js/app.js' %}"
+></script>
+
+
+<!-- Desktop sidebar rail -->
+
+<script
+    src="{% static 'js/sidebar-rail.js' %}"
+></script>
+
 
 {% block extra_js %}{% endblock %}
 
 </body>
+
 </html>

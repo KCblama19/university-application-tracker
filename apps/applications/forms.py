@@ -114,7 +114,7 @@ class ApplicationForm(forms.ModelForm):
 
     def clean(self):
         """
-        Validate that the selected program belongs to the selected university.
+        Validate relationships and status-dependent application dates.
         """
         cleaned_data = super().clean()
 
@@ -127,17 +127,17 @@ class ApplicationForm(forms.ModelForm):
                     "program",
                     "The selected program does not belong to the selected university.",
                 )
-        
+
         status = cleaned_data.get("status")
         submitted_at = cleaned_data.get("submitted_at")
         decision_at = cleaned_data.get("decision_at")
-        
+
         submitted_statuses = {
-        Application.Status.SUBMITTED,
-        Application.Status.UNDER_REVIEW,
-        Application.Status.INTERVIEW,
-        Application.Status.ACCEPTED,
-        Application.Status.REJECTED,
+            Application.Status.SUBMITTED,
+            Application.Status.UNDER_REVIEW,
+            Application.Status.INTERVIEW,
+            Application.Status.ACCEPTED,
+            Application.Status.REJECTED,
         }
 
         final_statuses = {
@@ -162,8 +162,7 @@ class ApplicationForm(forms.ModelForm):
                 "decision_at",
                 "A decision date should only be provided for an accepted or rejected application.",
             )
-            
-        
+
         if submitted_at and decision_at and decision_at < submitted_at:
             self.add_error(
                 "decision_at",

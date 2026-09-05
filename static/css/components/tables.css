@@ -1,0 +1,142 @@
+/* =========================================================
+   Tables
+   ========================================================= */
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    min-width: 640px;
+
+    border-collapse: collapse;
+
+    font-size: 0.82rem;
+}
+
+.data-table th {
+    padding: 11px 16px;
+
+    background: var(--color-surface-muted);
+    color: var(--color-text-muted);
+
+    border-bottom: 1px solid var(--color-border);
+
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-align: left;
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+.data-table td {
+    padding: 13px 16px;
+
+    color: var(--color-text-secondary);
+
+    border-bottom: 1px solid var(--color-border);
+
+    vertical-align: middle;
+}
+
+.data-table tr:last-child td {
+    border-bottom: 0;
+}
+
+.data-table tbody tr {
+    transition: background-color var(--transition-fast);
+}
+
+.data-table tbody tr:hover {
+    background: var(--color-surface-muted);
+}
+
+.table-primary {
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.table-link {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.table-link:hover {
+    color: var(--color-primary-hover);
+    text-decoration: underline;
+}
+
+.table-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+}
+
+.table-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 30px;
+
+    padding: 5px 8px;
+
+    background: var(--color-surface);
+
+    color: var(--color-text-secondary);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+
+    font-size: 0.74rem;
+
+    transition:
+        background-color var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast);
+}
+
+.table-action:hover {
+    background: var(--color-surface-muted);
+
+    color: var(--color-text);
+
+    border-color: var(--color-border-strong);
+}
+
+.table-action-danger {
+    color: var(--color-danger);
+}
+
+.table-action-danger:hover {
+    background: var(--color-danger-soft);
+    color: var(--color-danger);
+}
+
+.table-empty {
+    padding: 32px 16px !important;
+
+    color: var(--color-text-muted) !important;
+
+    text-align: center;
+}
+
+/* =========================================================
+   Mobile tables
+   ========================================================= */
+
+@media (max-width: 600px) {
+    .data-table {
+        font-size: 0.78rem;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 11px 12px;
+    }
+}

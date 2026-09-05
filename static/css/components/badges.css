@@ -1,0 +1,40 @@
+/* =========================================================
+   Status Badges
+   ========================================================= */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+
+    min-height: 24px;
+
+    padding: 4px 8px;
+
+    border-radius: var(--radius-pill);
+
+    font-size: 0.7rem;
+    font-weight: 650;
+    line-height: 1.2;
+
+    white-space: nowrap;
+}
+
+.status-primary {
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+}
+
+.status-success {
+    background: var(--color-success-soft);
+    color: var(--color-success);
+}
+
+.status-warning {
+    background: var(--color-warning-soft);
+    color: var(--color-warning);
+}
+
+.status-danger {
+    background: var(--color-danger-soft);
+    color: var(--color-danger);
+}

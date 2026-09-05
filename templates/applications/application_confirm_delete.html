@@ -1,4 +1,3 @@
-{% load static %}
 {% extends "base.html" %}
 
 {% block title %}
@@ -7,17 +6,17 @@
 
 {% block content %}
 <div class="page-header">
-    <div>
+    <div class="page-header-text">
         <p class="breadcrumb">
             <a href="{% url 'applications:list' %}">Applications</a>
             / Delete
         </p>
 
-        <h1>Delete Application</h1>
+        <h1 class="page-title">Delete Application</h1>
     </div>
 </div>
 
-<div class="content-card">
+<section class="surface">
     <div class="confirmation-content">
         <h2>
             Delete {{ application.program.name }} at
@@ -46,5 +45,5 @@
             </form>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}

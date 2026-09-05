@@ -1,30 +1,29 @@
 {% extends "base.html" %}
 
 {% block title %}
-    {% if form.instance.pk %}
-        Edit {{ form.instance.name }}
-    {% else %}
-        Add University
-    {% endif %}
-    — Application Command Center
+    {{ page_title }} — Application Command Center
 {% endblock %}
 
 {% block universities_nav %}active{% endblock %}
 
 {% block breadcrumb %}
+
     <a href="{% url 'universities:list' %}">
         Universities
     </a>
 
     <span class="breadcrumb-separator">/</span>
 
+    <a href="{% url 'universities:detail' university.pk %}">
+        {{ university.name }}
+    </a>
+
+    <span class="breadcrumb-separator">/</span>
+
     <span class="breadcrumb-current">
-        {% if form.instance.pk %}
-            Edit
-        {% else %}
-            Add
-        {% endif %}
+        {{ page_title }}
     </span>
+
 {% endblock %}
 
 
@@ -35,17 +34,15 @@
     <div class="page-header-text">
 
         <h1 class="page-title">
-
-            {% if form.instance.pk %}
-                Edit university
-            {% else %}
-                Add university
-            {% endif %}
-
+            {{ page_title }}
         </h1>
 
         <p class="page-description">
-            Keep the university information you need for your application planning.
+            {% if program %}
+                Update the program information for {{ university.name }}.
+            {% else %}
+                Add an academic program offered by {{ university.name }}.
+            {% endif %}
         </p>
 
     </div>
@@ -65,7 +62,7 @@
 
                 {% if form.non_field_errors %}
 
-                    <div class="message message-error">
+                    <div class="form-errors">
                         {{ form.non_field_errors }}
                     </div>
 
@@ -86,15 +83,20 @@
                         {{ field }}
 
                         {% if field.help_text %}
-                            <span class="form-help">
+
+                            <div class="form-help">
                                 {{ field.help_text }}
-                            </span>
+                            </div>
+
                         {% endif %}
 
+
                         {% for error in field.errors %}
-                            <div class="form-errors">
+
+                            <div class="field-error">
                                 {{ error }}
                             </div>
+
                         {% endfor %}
 
                     </div>
@@ -107,7 +109,7 @@
             <div class="form-card-footer">
 
                 <a
-                    href="{% if form.instance.pk %}{% url 'universities:detail' form.instance.pk %}{% else %}{% url 'universities:list' %}{% endif %}"
+                    href="{% url 'universities:detail' university.pk %}"
                     class="btn btn-secondary"
                 >
                     Cancel
@@ -117,11 +119,7 @@
                     type="submit"
                     class="btn btn-primary"
                 >
-                    {% if form.instance.pk %}
-                        Save changes
-                    {% else %}
-                        Add university
-                    {% endif %}
+                    {{ submit_label }}
                 </button>
 
             </div>

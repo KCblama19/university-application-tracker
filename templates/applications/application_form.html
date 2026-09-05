@@ -6,13 +6,13 @@
 
 {% block content %}
 <div class="page-header">
-    <div>
+    <div class="page-header-text">
         <p class="breadcrumb">
             <a href="{% url 'applications:list' %}">Applications</a>
             / {{ page_title }}
         </p>
 
-        <h1>{{ page_title }}</h1>
+        <h1 class="page-title">{{ page_title }}</h1>
 
         <p class="page-description">
             Record the university application and keep its important
@@ -41,7 +41,6 @@
         </div>
 
         <div class="form-card-body">
-
             <div class="form-row">
                 <div class="form-group">
                     <label for="{{ form.university.id_for_label }}">
@@ -68,7 +67,6 @@
                 </div>
             </div>
 
-
             <div class="form-row">
                 <div class="form-group">
                     <label for="{{ form.scholarship.id_for_label }}">
@@ -94,7 +92,6 @@
                     {% endfor %}
                 </div>
             </div>
-
         </div>
     </section>
 
@@ -108,7 +105,6 @@
         </div>
 
         <div class="form-card-body">
-
             <div class="form-row">
                 <div class="form-group">
                     <label for="{{ form.application_deadline.id_for_label }}">
@@ -134,7 +130,6 @@
                     {% endfor %}
                 </div>
             </div>
-
         </div>
     </section>
 
@@ -148,7 +143,6 @@
         </div>
 
         <div class="form-card-body">
-
             <div class="form-group">
                 <label for="{{ form.portal_url.id_for_label }}">
                     Application Portal
@@ -186,7 +180,6 @@
                     {% endfor %}
                 </div>
             </div>
-
         </div>
     </section>
 
@@ -224,8 +217,8 @@
             {{ submit_label }}
         </button>
     </div>
-
 </form>
+
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -258,9 +251,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        fetch(
-            `/applications/university/${universityId}/programs/`
-        )
+        fetch(`/applications/university/${universityId}/programs/`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Unable to load programs.");

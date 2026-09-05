@@ -1,165 +1,495 @@
 {% extends "base.html" %}
 
-{% load static %}
 
-{% block title %}Dashboard — Application Command Center{% endblock %}
+{% block title %}
+    Dashboard — Application Command Center
+{% endblock %}
 
-{% block dashboard_nav %}active{% endblock %}
+
+{% block dashboard_nav %}
+    active
+{% endblock %}
+
 
 {% block breadcrumb %}
-<span class="breadcrumb-current">Dashboard</span>
+    <span class="breadcrumb-current">
+        Dashboard
+    </span>
 {% endblock %}
+
 
 {% block content %}
 
+
+<!-- =========================================================
+     Page header
+     ========================================================= -->
+
 <div class="page-header">
-<div class="page-header-text">
 
-    <h1 class="page-title">
-        Good morning, {{ request.user.first_name|default:request.user.username }}.
-    </h1>
+    <div class="page-header-text">
 
-    <p class="page-description">
-        Here's what needs your attention across your university applications.
-    </p>
+        <h1 class="page-title">
+            Good morning, {{ request.user.first_name|default:request.user.username }}.
+        </h1>
 
-</div>
+        <p class="page-description">
+            Here's what needs your attention across your university applications.
+        </p>
 
-<div class="page-actions">
-
-    <a
-        href="{% url 'applications:create' %}"
-        class="btn btn-primary"
-    >
-        Add application
-    </a>
-
-</div>
-</div> <!-- Key application metrics --> <div class="dashboard-grid">
-<div class="metric-card">
-
-    <div class="metric-label">
-        Applications
     </div>
 
-    <div class="metric-value">
-        {{ total_applications|default:"0" }}
+
+    <div class="page-actions">
+
+        <a
+            href="{% url 'applications:create' %}"
+            class="btn btn-primary"
+        >
+            <i class="bi bi-plus-lg"></i>
+            Add application
+        </a>
+
     </div>
 
 </div>
 
 
-<div class="metric-card">
+<!-- =========================================================
+     Application metrics
+     ========================================================= -->
 
-    <div class="metric-label">
-        Submitted
+<div class="dashboard-grid">
+
+
+    <div class="metric-card">
+
+        <div class="metric-label">
+            Applications
+        </div>
+
+        <div class="metric-value">
+            {{ total_applications|default:"0" }}
+        </div>
+
     </div>
 
-    <div class="metric-value">
-        {{ submitted_applications|default:"0" }}
+
+    <div class="metric-card">
+
+        <div class="metric-label">
+            Submitted
+        </div>
+
+        <div class="metric-value">
+            {{ submitted_applications|default:"0" }}
+        </div>
+
+    </div>
+
+
+    <div class="metric-card">
+
+        <div class="metric-label">
+            In progress
+        </div>
+
+        <div class="metric-value">
+            {{ in_progress_applications|default:"0" }}
+        </div>
+
+    </div>
+
+
+    <div class="metric-card">
+
+        <div class="metric-label">
+            Deadlines soon
+        </div>
+
+        <div class="metric-value">
+            {{ upcoming_deadlines|default:"0" }}
+        </div>
+
     </div>
 
 </div>
 
 
-<div class="metric-card">
+<!-- =========================================================
+     Attention summary
+     ========================================================= -->
 
-    <div class="metric-label">
-        In progress
-    </div>
+<div class="dashboard-columns">
 
-    <div class="metric-value">
-        {{ in_progress_applications|default:"0" }}
-    </div>
+
+    <!-- =====================================================
+         Tasks needing attention
+         ===================================================== -->
+
+    <section class="surface">
+
+        <div class="surface-header">
+
+            <div>
+
+                <h2 class="surface-title">
+                    Tasks needing attention
+                </h2>
+
+                <p class="section-description">
+                    {{ overdue_tasks }} overdue · {{ pending_task_count }} pending
+                </p>
+
+            </div>
+
+
+            <a
+                href="{% url 'tasks:list' %}"
+                class="btn btn-secondary btn-sm"
+            >
+                View tasks
+            </a>
+
+        </div>
+
+
+        {% if pending_tasks %}
+
+            <div class="table-wrapper">
+
+                <table class="data-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th scope="col">
+                                Task
+                            </th>
+
+                            <th scope="col">
+                                Due
+                            </th>
+
+                            <th scope="col">
+                                Priority
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for task in pending_tasks %}
+
+                            <tr>
+
+                                <td>
+
+                                    <a
+                                        href="{% url 'tasks:detail' task.id %}"
+                                        class="table-link"
+                                    >
+                                        {{ task.title }}
+                                    </a>
+
+
+                                    {% if task.application %}
+
+                                        <div class="text-muted">
+                                            {{ task.application.university.name }}
+                                        </div>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+
+                                    {% if task.due_date %}
+
+                                        {{ task.due_date|date:"M d, Y" }}
+
+                                    {% else %}
+
+                                        <span class="text-muted">
+                                            No due date
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+                                    {{ task.get_priority_display }}
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <h3 class="empty-state-title">
+                    You're caught up
+                </h3>
+
+                <p class="empty-state-description">
+                    You have no pending tasks requiring attention.
+                </p>
+
+                <a
+                    href="{% url 'tasks:create' %}"
+                    class="btn btn-primary"
+                >
+                    Create a task
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- =====================================================
+         Document readiness
+         ===================================================== -->
+
+    <section class="surface">
+
+        <div class="surface-header">
+
+            <div>
+
+                <h2 class="surface-title">
+                    Document readiness
+                </h2>
+
+                <p class="section-description">
+                    Application document requirements
+                </p>
+
+            </div>
+
+
+            <a
+                href="{% url 'documents:list' %}"
+                class="btn btn-secondary btn-sm"
+            >
+                View documents
+            </a>
+
+        </div>
+
+
+        <div class="detail-grid">
+
+            <div class="detail-item">
+
+                <div class="detail-item-label">
+                    Total requirements
+                </div>
+
+                <div class="detail-item-value">
+                    {{ total_document_requirements|default:"0" }}
+                </div>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <div class="detail-item-label">
+                    Completed
+                </div>
+
+                <div class="detail-item-value">
+                    {{ completed_document_requirements|default:"0" }}
+                </div>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <div class="detail-item-label">
+                    Pending
+                </div>
+
+                <div class="detail-item-value">
+                    {{ pending_document_requirements|default:"0" }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {% if pending_document_requirements %}
+
+            <div class="empty-state">
+
+                <h3 class="empty-state-title">
+                    Documents still needed
+                </h3>
+
+                <p class="empty-state-description">
+                    Some application document requirements are not yet ready.
+                </p>
+
+                <a
+                    href="{% url 'documents:list' %}"
+                    class="btn btn-secondary"
+                >
+                    Review documents
+                </a>
+
+            </div>
+
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <h3 class="empty-state-title">
+                    No pending requirements
+                </h3>
+
+                <p class="empty-state-description">
+                    All current application document requirements are complete.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </section>
 
 </div>
 
 
-<div class="metric-card">
+<!-- =========================================================
+     Upcoming applications
+     ========================================================= -->
 
-    <div class="metric-label">
-        Deadlines soon
-    </div>
-
-    <div class="metric-value">
-        {{ upcoming_deadlines|default:"0" }}
-    </div>
-
-</div>
-</div> <!-- Attention summary --> <div class="dashboard-columns">
-<!-- Tasks needing attention -->
-
-<section class="surface">
+<section class="surface dashboard-section">
 
     <div class="surface-header">
 
         <div>
+
             <h2 class="surface-title">
-                Tasks needing attention
+                Upcoming application deadlines
             </h2>
 
             <p class="section-description">
-                {{ overdue_tasks }} overdue · {{ pending_task_count }} pending
+                Applications with deadlines in the next 30 days.
             </p>
+
         </div>
 
+
         <a
-            href="{% url 'tasks:list' %}"
-            class="btn btn-secondary"
+            href="{% url 'applications:list' %}"
+            class="btn btn-secondary btn-sm"
         >
-            View tasks
+            View applications
         </a>
 
     </div>
 
 
-    {% if pending_tasks %}
+    {% if upcoming_applications %}
 
         <div class="table-wrapper">
 
             <table class="data-table">
 
                 <thead>
+
                     <tr>
-                        <th>Task</th>
-                        <th>Due</th>
-                        <th>Priority</th>
+
+                        <th scope="col">
+                            University
+                        </th>
+
+                        <th scope="col">
+                            Program
+                        </th>
+
+                        <th scope="col">
+                            Deadline
+                        </th>
+
+                        <th scope="col">
+                            Status
+                        </th>
+
+                        <th scope="col">
+                            <span class="sr-only">
+                                Actions
+                            </span>
+                        </th>
+
                     </tr>
+
                 </thead>
+
 
                 <tbody>
 
-                    {% for task in pending_tasks %}
+                    {% for application in upcoming_applications %}
 
                         <tr>
 
+                            <td class="table-primary">
+                                {{ application.university.name }}
+                            </td>
+
+
                             <td>
+                                {{ application.program.name }}
+                            </td>
+
+
+                            <td>
+                                {{ application.application_deadline|date:"M d, Y" }}
+                            </td>
+
+
+                            <td>
+
+                                <span class="status-badge status-primary">
+                                    {{ application.get_status_display }}
+                                </span>
+
+                            </td>
+
+
+                            <td class="table-actions">
+
                                 <a
-                                    href="{% url 'tasks:detail' task.id %}"
-                                    class="table-link"
+                                    href="{% url 'applications:detail' application.id %}"
+                                    class="table-action"
                                 >
-                                    {{ task.title }}
+                                    View
                                 </a>
 
-                                {% if task.application %}
-                                    <div class="text-muted">
-                                        {{ task.application.university.name }}
-                                    </div>
-                                {% endif %}
-                            </td>
-
-                            <td>
-                                {% if task.due_date %}
-                                    {{ task.due_date|date:"M d, Y" }}
-                                {% else %}
-                                    <span class="text-muted">
-                                        No due date
-                                    </span>
-                                {% endif %}
-                            </td>
-
-                            <td>
-                                {{ task.get_priority_display }}
                             </td>
 
                         </tr>
@@ -172,23 +502,24 @@
 
         </div>
 
+
     {% else %}
 
         <div class="empty-state">
 
             <h3 class="empty-state-title">
-                You're caught up
+                No upcoming deadlines
             </h3>
 
             <p class="empty-state-description">
-                You have no pending tasks requiring attention.
+                Applications with deadlines in the next 30 days will appear here.
             </p>
 
             <a
-                href="{% url 'tasks:create' %}"
+                href="{% url 'applications:create' %}"
                 class="btn btn-primary"
             >
-                Create a task
+                Add application
             </a>
 
         </div>
@@ -198,390 +529,223 @@
 </section>
 
 
-<!-- Document readiness -->
+<!-- =========================================================
+     Scholarships
+     ========================================================= -->
 
-<section class="surface">
+<section class="surface dashboard-section">
 
     <div class="surface-header">
 
         <div>
+
             <h2 class="surface-title">
-                Document readiness
+                Upcoming scholarship deadlines
             </h2>
 
             <p class="section-description">
-                Application document requirements
+                Scholarship opportunities with deadlines in the next 30 days.
             </p>
+
         </div>
 
+
         <a
-            href="{% url 'documents:list' %}"
-            class="btn btn-secondary"
+            href="{% url 'scholarships:list' %}"
+            class="btn btn-secondary btn-sm"
         >
-            View documents
+            View scholarships
         </a>
 
     </div>
 
 
-    <div class="detail-grid">
+    {% if upcoming_scholarships %}
 
-        <div class="detail-item">
+        <div class="table-wrapper">
 
-            <div class="detail-label">
-                Total requirements
-            </div>
+            <table class="data-table">
 
-            <div class="detail-value">
-                {{ total_document_requirements }}
-            </div>
+                <thead>
+
+                    <tr>
+
+                        <th scope="col">
+                            Scholarship
+                        </th>
+
+                        <th scope="col">
+                            Provider
+                        </th>
+
+                        <th scope="col">
+                            Deadline
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for scholarship in upcoming_scholarships %}
+
+                        <tr>
+
+                            <td class="table-primary">
+
+                                <a
+                                    href="{% url 'scholarships:detail' scholarship.id %}"
+                                    class="table-link"
+                                >
+                                    {{ scholarship.name }}
+                                </a>
+
+                            </td>
+
+
+                            <td>
+                                {{ scholarship.provider|default:"—" }}
+                            </td>
+
+
+                            <td>
+                                {{ scholarship.deadline|date:"M d, Y" }}
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
 
         </div>
 
-
-        <div class="detail-item">
-
-            <div class="detail-label">
-                Completed
-            </div>
-
-            <div class="detail-value">
-                {{ completed_document_requirements }}
-            </div>
-
-        </div>
-
-
-        <div class="detail-item">
-
-            <div class="detail-label">
-                Pending
-            </div>
-
-            <div class="detail-value">
-                {{ pending_document_requirements }}
-            </div>
-
-        </div>
-
-    </div>
-
-
-    {% if pending_document_requirements %}
-
-        <div class="empty-state">
-
-            <h3 class="empty-state-title">
-                Documents still needed
-            </h3>
-
-            <p class="empty-state-description">
-                Some application document requirements are not yet ready.
-            </p>
-
-            <a
-                href="{% url 'documents:list' %}"
-                class="btn btn-secondary"
-            >
-                Review documents
-            </a>
-
-        </div>
 
     {% else %}
 
         <div class="empty-state">
 
             <h3 class="empty-state-title">
-                No pending requirements
+                No upcoming scholarship deadlines
             </h3>
 
             <p class="empty-state-description">
-                All current application document requirements are complete.
+                Scholarships with deadlines in the next 30 days will appear here.
             </p>
+
+            <a
+                href="{% url 'scholarships:create' %}"
+                class="btn btn-secondary"
+            >
+                Add scholarship
+            </a>
 
         </div>
 
     {% endif %}
 
 </section>
-</div> <!-- Upcoming applications --> <section class="surface dashboard-section">
-<div class="surface-header">
 
-    <div>
-        <h2 class="surface-title">
-            Upcoming application deadlines
-        </h2>
 
-        <p class="section-description">
-            Applications with deadlines in the next 30 days.
-        </p>
+<!-- =========================================================
+     Application status
+     ========================================================= -->
+
+<section class="surface dashboard-section">
+
+    <div class="surface-header">
+
+        <div>
+
+            <h2 class="surface-title">
+                Application status
+            </h2>
+
+            <p class="section-description">
+                Current distribution of your applications.
+            </p>
+
+        </div>
+
     </div>
 
-    <a
-        href="{% url 'applications:list' %}"
-        class="btn btn-secondary"
-    >
-        View applications
-    </a>
 
-</div>
+    {% if application_status_counts %}
 
+        <div class="table-wrapper">
 
-{% if upcoming_applications %}
+            <table class="data-table">
 
-    <div class="table-wrapper">
-
-        <table class="data-table">
-
-            <thead>
-                <tr>
-                    <th>University</th>
-                    <th>Program</th>
-                    <th>Deadline</th>
-                    <th>Status</th>
-                    <th></th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                {% for application in upcoming_applications %}
+                <thead>
 
                     <tr>
 
-                        <td class="table-primary">
-                            {{ application.university.name }}
-                        </td>
+                        <th scope="col">
+                            Status
+                        </th>
 
-                        <td>
-                            {{ application.program.name }}
-                        </td>
-
-                        <td>
-                            {{ application.application_deadline|date:"M d, Y" }}
-                        </td>
-
-                        <td>
-
-                            <span class="application-status">
-                                {{ application.get_status_display }}
-                            </span>
-
-                        </td>
-
-                        <td class="table-actions">
-
-                            <a
-                                href="{% url 'applications:detail' application.id %}"
-                                class="table-action"
-                            >
-                                View
-                            </a>
-
-                        </td>
+                        <th scope="col">
+                            Applications
+                        </th>
 
                     </tr>
 
-                {% endfor %}
+                </thead>
 
-            </tbody>
 
-        </table>
+                <tbody>
 
-    </div>
+                    {% for item in application_status_counts %}
 
-{% else %}
+                        <tr>
 
-    <div class="empty-state">
+                            <td>
+                                {{ item.status }}
+                            </td>
 
-        <h3 class="empty-state-title">
-            No upcoming deadlines
-        </h3>
+                            <td>
+                                {{ item.total }}
+                            </td>
 
-        <p class="empty-state-description">
-            Applications with deadlines in the next 30 days will appear here.
-        </p>
+                        </tr>
 
-        <a
-            href="{% url 'applications:create' %}"
-            class="btn btn-primary"
-        >
-            Add application
-        </a>
+                    {% endfor %}
 
-    </div>
+                </tbody>
 
-{% endif %}
-</section> <!-- Scholarships --> <section class="surface dashboard-section">
-<div class="surface-header">
+            </table>
 
-    <div>
-        <h2 class="surface-title">
-            Upcoming scholarship deadlines
-        </h2>
+        </div>
 
-        <p class="section-description">
-            Scholarship opportunities with deadlines in the next 30 days.
-        </p>
-    </div>
 
-    <a
-        href="{% url 'scholarships:list' %}"
-        class="btn btn-secondary"
-    >
-        View scholarships
-    </a>
+    {% else %}
 
-</div>
+        <div class="empty-state">
 
+            <h3 class="empty-state-title">
+                No applications yet
+            </h3>
 
-{% if upcoming_scholarships %}
+            <p class="empty-state-description">
+                Add your first university application to start tracking your progress.
+            </p>
 
-    <div class="table-wrapper">
+            <a
+                href="{% url 'applications:create' %}"
+                class="btn btn-primary"
+            >
+                Add application
+            </a>
 
-        <table class="data-table">
+        </div>
 
-            <thead>
-                <tr>
-                    <th>Scholarship</th>
-                    <th>Provider</th>
-                    <th>Deadline</th>
-                </tr>
-            </thead>
+    {% endif %}
 
-            <tbody>
-
-                {% for scholarship in upcoming_scholarships %}
-
-                    <tr>
-
-                        <td class="table-primary">
-                            <a
-                                href="{% url 'scholarships:detail' scholarship.id %}"
-                                class="table-link"
-                            >
-                                {{ scholarship.name }}
-                            </a>
-                        </td>
-
-                        <td>
-                            {{ scholarship.provider|default:"—" }}
-                        </td>
-
-                        <td>
-                            {{ scholarship.deadline|date:"M d, Y" }}
-                        </td>
-
-                    </tr>
-
-                {% endfor %}
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-{% else %}
-
-    <div class="empty-state">
-
-        <h3 class="empty-state-title">
-            No upcoming scholarship deadlines
-        </h3>
-
-        <p class="empty-state-description">
-            Scholarships with deadlines in the next 30 days will appear here.
-        </p>
-
-        <a
-            href="{% url 'scholarships:create' %}"
-            class="btn btn-secondary"
-        >
-            Add scholarship
-        </a>
-
-    </div>
-
-{% endif %}
-</section> <!-- Application status --> <section class="surface dashboard-section">
-<div class="surface-header">
-
-    <div>
-        <h2 class="surface-title">
-            Application status
-        </h2>
-
-        <p class="section-description">
-            Current distribution of your applications.
-        </p>
-    </div>
-
-</div>
-
-
-{% if application_status_counts %}
-
-    <div class="table-wrapper">
-
-        <table class="data-table">
-
-            <thead>
-
-                <tr>
-                    <th>Status</th>
-                    <th>Applications</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                {% for item in application_status_counts %}
-
-                    <tr>
-
-                        <td>
-                            {{ item.status }}
-                        </td>
-
-                        <td>
-                            {{ item.total }}
-                        </td>
-
-                    </tr>
-
-                {% endfor %}
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-{% else %}
-
-    <div class="empty-state">
-
-        <h3 class="empty-state-title">
-            No applications yet
-        </h3>
-
-        <p class="empty-state-description">
-            Add your first university application to start tracking your progress.
-        </p>
-
-        <a
-            href="{% url 'applications:create' %}"
-            class="btn btn-primary"
-        >
-            Add application
-        </a>
-
-    </div>
-
-{% endif %}
 </section>
+
 
 {% endblock %}

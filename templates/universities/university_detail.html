@@ -18,7 +18,6 @@
     </span>
 {% endblock %}
 
-
 {% block content %}
 
 <div class="page-header">
@@ -30,7 +29,7 @@
         </h1>
 
         <p class="page-description">
-            {{ university.city }}, {{ university.country }}
+            {{ university.city|default:"" }}{% if university.city and university.country %}, {% endif %}{{ university.country|default:"" }}
         </p>
 
     </div>
@@ -56,29 +55,24 @@
 </div>
 
 
-<!-- University information -->
-
 <section class="surface detail-section">
 
     <div class="surface-header">
-
         <h2 class="surface-title">
             University information
         </h2>
-
     </div>
-
 
     <div class="detail-grid">
 
         <div class="detail-item">
 
-            <span class="detail-label">
+            <span class="detail-item-label">
                 Country
             </span>
 
-            <span class="detail-value">
-                {{ university.country }}
+            <span class="detail-item-value">
+                {{ university.country|default:"—" }}
             </span>
 
         </div>
@@ -86,11 +80,11 @@
 
         <div class="detail-item">
 
-            <span class="detail-label">
+            <span class="detail-item-label">
                 City
             </span>
 
-            <span class="detail-value">
+            <span class="detail-item-value">
                 {{ university.city|default:"—" }}
             </span>
 
@@ -99,11 +93,11 @@
 
         <div class="detail-item">
 
-            <span class="detail-label">
+            <span class="detail-item-label">
                 Ranking
             </span>
 
-            <span class="detail-value">
+            <span class="detail-item-value">
                 {% if university.ranking %}
                     #{{ university.ranking }}
                 {% else %}
@@ -116,11 +110,11 @@
 
         <div class="detail-item">
 
-            <span class="detail-label">
+            <span class="detail-item-label">
                 Website
             </span>
 
-            <span class="detail-value">
+            <span class="detail-item-value">
 
                 {% if university.website %}
 
@@ -128,7 +122,7 @@
                         href="{{ university.website }}"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="detail-link"
+                        class="external-link"
                     >
                         Visit website
                     </a>
@@ -148,7 +142,7 @@
 
         <div class="detail-long-text">
 
-            <span class="detail-label">
+            <span class="detail-item-label">
                 Description
             </span>
 
@@ -165,7 +159,7 @@
 
         <div class="detail-long-text">
 
-            <span class="detail-label">
+            <span class="detail-item-label">
                 Notes
             </span>
 
@@ -180,13 +174,12 @@
 </section>
 
 
-<!-- Programs -->
-
 <section class="surface detail-section">
 
     <div class="surface-header">
 
         <div>
+
             <h2 class="surface-title">
                 Programs
             </h2>
@@ -194,10 +187,11 @@
             <p class="section-description">
                 Academic programs available at this university.
             </p>
+
         </div>
 
         <a
-            href="{% url 'universities:program_create' university.pk %}"
+            href="{% url 'universities:program-create' university.pk %}"
             class="btn btn-primary"
         >
             Add program
@@ -213,16 +207,15 @@
             <thead>
 
                 <tr>
-                    <th>Program</th>
-                    <th>Degree</th>
-                    <th>Language</th>
-                    <th>Duration</th>
-                    <th>Tuition</th>
-                    <th></th>
+                    <th scope="col">Program</th>
+                    <th scope="col">Degree</th>
+                    <th scope="col">Language</th>
+                    <th scope="col">Duration</th>
+                    <th scope="col">Tuition</th>
+                    <th scope="col"><span class="sr-only">Actions</span></th>
                 </tr>
 
             </thead>
-
 
             <tbody>
 
@@ -258,22 +251,24 @@
                             {% endif %}
                         </td>
 
-                        <td class="table-actions">
+                        <td>
+                            <div class="table-actions">
 
-                            <a
-                                href="{% url 'universities:program_update' program.pk %}"
-                                class="table-action"
-                            >
-                                Edit
-                            </a>
+                                <a
+                                    href="{% url 'universities:program-update' program.pk %}"
+                                    class="table-action"
+                                >
+                                    Edit
+                                </a>
 
-                            <a
-                                href="{% url 'universities:program_delete' program.pk %}"
-                                class="table-action"
-                            >
-                                Delete
-                            </a>
+                                <a
+                                    href="{% url 'universities:program-delete' program.pk %}"
+                                    class="table-action table-action-danger"
+                                >
+                                    Delete
+                                </a>
 
+                            </div>
                         </td>
 
                     </tr>

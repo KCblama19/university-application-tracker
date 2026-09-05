@@ -1,13 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
-from django.shortcuts import get_object_or_404, redirect, render
-
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import ApplicationForm
 from .models import Application
-
 from apps.universities.models import Program
 
 
@@ -16,7 +13,6 @@ def application_list(request):
     """
     Display applications belonging to the currently logged-in user.
     """
-
     applications = (
         Application.objects
         .filter(user=request.user)
@@ -34,6 +30,9 @@ def application_list(request):
 
 @login_required
 def application_detail(request, application_id):
+    """
+    Display an application and its related records.
+    """
     application = get_object_or_404(
         Application.objects
         .select_related(
@@ -64,7 +63,6 @@ def application_create(request):
     """
     Create a new application for the currently logged-in user.
     """
-
     if request.method == "POST":
         form = ApplicationForm(request.POST)
 
@@ -101,7 +99,6 @@ def application_update(request, application_id):
     """
     Update an application belonging to the currently logged-in user.
     """
-
     application = get_object_or_404(
         Application,
         id=application_id,
@@ -146,7 +143,6 @@ def application_delete(request, application_id):
     """
     Delete an application belonging to the currently logged-in user.
     """
-
     application = get_object_or_404(
         Application,
         id=application_id,
@@ -170,7 +166,8 @@ def application_delete(request, application_id):
             "application": application,
         },
     )
-    
+
+
 @login_required
 def university_programs(request, university_id):
     """
@@ -179,7 +176,6 @@ def university_programs(request, university_id):
     This endpoint is used by the application form to populate
     the program dropdown dynamically.
     """
-
     programs = (
         Program.objects
         .filter(university_id=university_id)

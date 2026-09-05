@@ -1,0 +1,113 @@
+/* =========================================================
+   APPLICATION SHELL
+   ========================================================= */
+
+.app-shell {
+    min-height: 100vh;
+}
+
+/* =========================================================
+   Main application area
+   ========================================================= */
+
+.main-area {
+    min-height: 100vh;
+    margin-left: var(--sidebar-width);
+
+    transition:
+        margin-left var(--transition-normal);
+}
+
+/* =========================================================
+   Main content
+   ========================================================= */
+
+.main-content {
+    width: min(var(--content-max-width), 100%);
+    margin: 0 auto;
+
+    padding: var(--space-8);
+}
+
+/* =========================================================
+   Desktop collapsed sidebar
+   ========================================================= */
+
+@media (min-width: 992px) {
+    .sidebar-collapsed .main-area {
+        margin-left: var(--sidebar-rail-width);
+    }
+}
+
+/* =========================================================
+   Page header
+   ========================================================= */
+
+.page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+
+    margin-bottom: 28px;
+}
+
+.page-header-text {
+    min-width: 0;
+}
+
+.page-title {
+    margin: 0;
+
+    color: var(--color-text);
+
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+}
+
+.page-description {
+    max-width: 680px;
+    margin: 6px 0 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.page-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    flex: 0 0 auto;
+}
+
+/* =========================================================
+   Mobile
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+    .main-area {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        gap: 16px;
+
+        margin-bottom: 24px;
+    }
+
+    .page-actions {
+        width: 100%;
+    }
+
+    .page-actions .btn {
+        width: 100%;
+    }
+}

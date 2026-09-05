@@ -46,6 +46,21 @@ class University(models.Model):
     updated_at = models.DateTimeField(
         auto_now=True,
     )
+    
+    constraints = [
+        models.UniqueConstraint(
+            fields=["university", "name", "degree_type"],
+            name="unique_program_per_university_degree",
+        ),
+        models.CheckConstraint(
+            condition=models.Q(duration__gte=0) | models.Q(duration__isnull=True),
+            name="program_duration_non_negative",
+        ),
+        models.CheckConstraint(
+            condition=models.Q(tuition_fee__gte=0) | models.Q(tuition_fee__isnull=True),
+            name="program_tuition_non_negative",
+        ),
+    ]
 
     class Meta:
         ordering = ["name"]

@@ -1,0 +1,162 @@
+/* =========================================================
+   Forms
+   ========================================================= */
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: var(--color-text);
+
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.form-help {
+    margin-top: 5px;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.75rem;
+}
+
+.form-control {
+    display: block;
+
+    width: 100%;
+    min-height: 40px;
+
+    padding: 8px 11px;
+
+    background: var(--color-surface);
+    color: var(--color-text);
+
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+
+    font-size: 0.875rem;
+
+    outline: none;
+
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.form-control::placeholder {
+    color: var(--color-text-muted);
+}
+
+.form-control:hover {
+    border-color: var(--color-border-strong);
+}
+
+.form-control:focus {
+    border-color: var(--color-primary);
+
+    box-shadow: 0 0 0 3px var(--color-primary-soft);
+}
+
+textarea.form-control {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.form-layout {
+    display: grid;
+    gap: 18px;
+}
+
+.form-card-body {
+    padding: 24px;
+}
+
+.form-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 8px;
+
+    padding: 16px 24px;
+
+    border-top: 1px solid var(--color-border);
+}
+
+.form-row {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+.form-errors {
+    margin-bottom: 18px;
+
+    padding: 12px 14px;
+
+    background: var(--color-danger-soft);
+    color: var(--color-danger);
+
+    border: 1px solid #f1d3d3;
+    border-radius: var(--radius-md);
+
+    font-size: 0.82rem;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    color: var(--color-text-secondary);
+
+    font-size: 0.82rem;
+}
+
+.form-checkbox {
+    width: 16px;
+    height: 16px;
+
+    accent-color: var(--color-primary);
+}
+
+.field-error {
+    margin-top: 5px;
+
+    color: var(--color-danger);
+
+    font-size: 0.75rem;
+}
+
+/* =========================================================
+   Responsive forms
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-card-body {
+        padding: 20px;
+    }
+
+    .form-card-footer {
+        padding: 16px 20px;
+    }
+}

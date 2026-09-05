@@ -1,0 +1,46 @@
+/* =========================================================
+   Topbar
+   ========================================================= */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 64px;
+    padding: 0 32px;
+
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.breadcrumb-current {
+    color: var(--color-text-secondary);
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.topbar-action {
+    padding: 6px 10px;
+
+    background: transparent;
+    color: var(--color-text-secondary);
+
+    border: 1px solid transparent;
+    border-radius: var(--radius-small);
+
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.topbar-action:hover {
+    background: var(--color-surface-muted);
+    border-color: var(--color-border);
+    color: var(--color-text);
+}

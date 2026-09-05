@@ -1,0 +1,135 @@
+/* =========================================================
+   RESPONSIVE LAYOUT
+   Bootstrap handles:
+   - Mobile sidebar visibility
+   - Mobile sidebar animation
+   - Backdrop
+   - Mobile navbar visibility
+   - Desktop navbar visibility
+
+   This file handles application-specific responsive sizing.
+   ========================================================= */
+
+/* =========================================================
+   Tablet / mobile
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+    .mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        height: 64px;
+
+        padding: 0 20px;
+
+        background: var(--color-surface);
+
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .mobile-header .brand {
+        min-width: 0;
+    }
+
+    .mobile-header .brand-name {
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .mobile-menu-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        flex: 0 0 40px;
+
+        width: 40px;
+        height: 40px;
+
+        padding: 0;
+
+        background: var(--color-surface);
+        color: var(--color-text);
+
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm);
+
+        font-size: 1.25rem;
+
+        cursor: pointer;
+
+        transition:
+            background-color var(--transition-fast),
+            border-color var(--transition-fast);
+    }
+
+    .mobile-menu-button:hover {
+        background: var(--color-surface-muted);
+        border-color: var(--color-border-strong);
+    }
+
+    .mobile-menu-button:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+    }
+
+    .main-area {
+        margin-left: 0;
+    }
+
+    .main-content {
+        padding: 24px 20px;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboard-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar {
+        padding: 0 20px;
+    }
+}
+
+/* =========================================================
+   Small mobile
+   ========================================================= */
+
+@media (max-width: 600px) {
+    .main-content {
+        padding: 20px 16px;
+    }
+
+    .mobile-header {
+        padding: 0 16px;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+   Very small mobile
+   ========================================================= */
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 16px 12px;
+    }
+
+    .mobile-header {
+        padding: 0 12px;
+    }
+
+    .page-title {
+        font-size: 1.3rem;
+    }
+}

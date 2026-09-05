@@ -1,0 +1,65 @@
+/* =========================================================
+   Authentication Pages
+   ========================================================= */
+
+.auth-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: calc(100vh - 64px);
+}
+
+.auth-container {
+    width: min(440px, 100%);
+}
+
+.auth-header {
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.auth-title {
+    margin: 0;
+
+    color: var(--color-text);
+
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.auth-description {
+    margin: 6px 0 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: 0.84rem;
+}
+
+.auth-card {
+    padding: 24px;
+}
+
+.auth-submit {
+    width: 100%;
+}
+
+.auth-footer {
+    margin-top: 18px;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.78rem;
+    text-align: center;
+}
+
+.auth-footer a {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.auth-footer a:hover {
+    color: var(--color-primary-hover);
+    text-decoration: underline;
+}
