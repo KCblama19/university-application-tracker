@@ -1,148 +1,213 @@
 {% extends "base.html" %}
 
-{% block title %}{{ scholarship.name }} | Application Tracker{% endblock %}
+{% block title %}
+    {{ scholarship.name }} | Application Tracker
+{% endblock %}
+
+{% block breadcrumb %}
+    <span>Scholarships / {{ scholarship.name }}</span>
+{% endblock %}
 
 {% block content %}
 
-<div class="page-header">
-
-    <div>
-        <h1>{{ scholarship.name }}</h1>
-
-        {% if scholarship.provider %}
-            <p class="section-description">
-                {{ scholarship.provider }}
-            </p>
-        {% endif %}
-    </div>
+<div class="scholarship-detail">
 
 
-    <div class="page-actions">
+    <!-- =====================================================
+         Scholarship Header
+         ===================================================== -->
 
-        {% if scholarship.application_url %}
+    <section class="scholarship-detail-header">
+
+        <div class="scholarship-detail-title">
+
+            <h1>
+                {{ scholarship.name }}
+            </h1>
+
+            {% if scholarship.provider %}
+
+                <p class="scholarship-detail-provider">
+                    {{ scholarship.provider }}
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="scholarship-detail-actions">
+
+            {% if scholarship.application_url %}
+
+                <a
+                    href="{{ scholarship.application_url }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-primary"
+                >
+                    <i
+                        class="bi bi-box-arrow-up-right"
+                        aria-hidden="true"
+                    ></i>
+
+                    Open application
+                </a>
+
+            {% endif %}
+
+
             <a
-                href="{{ scholarship.application_url }}"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn-primary"
+                href="{% url 'scholarships:update' scholarship.id %}"
+                class="btn btn-secondary"
             >
-                Open Application
+                Edit
             </a>
-        {% endif %}
 
-        <a
-            href="{% url 'scholarships:update' scholarship.id %}"
-            class="btn btn-secondary"
-        >
-            Edit
-        </a>
 
-        <a
-            href="{% url 'scholarships:delete' scholarship.id %}"
-            class="btn btn-danger"
-        >
-            Delete
-        </a>
+            <a
+                href="{% url 'scholarships:delete' scholarship.id %}"
+                class="btn btn-danger"
+            >
+                Delete
+            </a>
 
-    </div>
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         Scholarship Information
+         ===================================================== -->
+
+    <section class="scholarship-content-section">
+
+        <h2>
+            Scholarship Information
+        </h2>
+
+
+        <div class="scholarship-info-grid">
+
+
+            <div class="scholarship-info-item">
+
+                <div class="scholarship-info-label">
+                    Type
+                </div>
+
+                <div class="scholarship-info-value">
+                    {{ scholarship.get_scholarship_type_display }}
+                </div>
+
+            </div>
+
+
+            <div class="scholarship-info-item">
+
+                <div class="scholarship-info-label">
+                    Deadline
+                </div>
+
+                <div class="scholarship-info-value">
+
+                    {% if scholarship.deadline %}
+                        {{ scholarship.deadline|date:"F d, Y" }}
+                    {% else %}
+                        Not specified
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="scholarship-info-item">
+
+                <div class="scholarship-info-label">
+                    Monthly Stipend
+                </div>
+
+                <div class="scholarship-info-value">
+
+                    {% if scholarship.stipend %}
+                        {{ scholarship.stipend|floatformat:2 }}
+                    {% else %}
+                        Not specified
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         Coverage
+         ===================================================== -->
+
+    {% if scholarship.coverage %}
+
+        <section class="scholarship-content-section">
+
+            <h2>
+                Coverage
+            </h2>
+
+            <div class="scholarship-content">
+                {{ scholarship.coverage|linebreaks }}
+            </div>
+
+        </section>
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         Eligibility
+         ===================================================== -->
+
+    {% if scholarship.eligibility %}
+
+        <section class="scholarship-content-section">
+
+            <h2>
+                Eligibility
+            </h2>
+
+            <div class="scholarship-content">
+                {{ scholarship.eligibility|linebreaks }}
+            </div>
+
+        </section>
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         Notes
+         ===================================================== -->
+
+    {% if scholarship.notes %}
+
+        <section class="scholarship-content-section">
+
+            <h2>
+                Notes
+            </h2>
+
+            <div class="scholarship-content">
+                {{ scholarship.notes|linebreaks }}
+            </div>
+
+        </section>
+
+    {% endif %}
 
 </div>
-
-
-<section class="detail-section">
-
-    <h2>Scholarship Information</h2>
-
-
-    <div class="detail-grid">
-
-        <div class="detail-item">
-            <span class="detail-label">
-                Type
-            </span>
-
-            <span class="detail-value">
-                {{ scholarship.get_scholarship_type_display }}
-            </span>
-        </div>
-
-
-        <div class="detail-item">
-            <span class="detail-label">
-                Deadline
-            </span>
-
-            <span class="detail-value">
-                {% if scholarship.deadline %}
-                    {{ scholarship.deadline|date:"F d, Y" }}
-                {% else %}
-                    Not specified
-                {% endif %}
-            </span>
-        </div>
-
-
-        <div class="detail-item">
-            <span class="detail-label">
-                Monthly Stipend
-            </span>
-
-            <span class="detail-value">
-                {% if scholarship.stipend %}
-                    {{ scholarship.stipend|floatformat:2 }}
-                {% else %}
-                    Not specified
-                {% endif %}
-            </span>
-        </div>
-
-    </div>
-
-</section>
-
-
-{% if scholarship.coverage %}
-
-<section class="detail-section">
-
-    <h2>Coverage</h2>
-
-    <div class="detail-long-text">
-        {{ scholarship.coverage|linebreaks }}
-    </div>
-
-</section>
-
-{% endif %}
-
-
-{% if scholarship.eligibility %}
-
-<section class="detail-section">
-
-    <h2>Eligibility</h2>
-
-    <div class="detail-long-text">
-        {{ scholarship.eligibility|linebreaks }}
-    </div>
-
-</section>
-
-{% endif %}
-
-
-{% if scholarship.notes %}
-
-<section class="detail-section">
-
-    <h2>Notes</h2>
-
-    <div class="detail-long-text">
-        {{ scholarship.notes|linebreaks }}
-    </div>
-
-</section>
-
-{% endif %}
 
 {% endblock %}

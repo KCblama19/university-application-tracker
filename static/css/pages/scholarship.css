@@ -1,0 +1,331 @@
+/* =========================================================
+   Scholarships
+   ========================================================= */
+
+/* =========================================================
+   Scholarship List
+   ========================================================= */
+
+.scholarship-list {
+    background: var(--color-surface);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+
+    overflow: hidden;
+}
+
+.scholarship-list .data-table {
+    margin: 0;
+}
+
+.scholarship-list .data-table td:first-child {
+    min-width: 220px;
+}
+
+.scholarship-list .data-table td:nth-child(2) {
+    min-width: 160px;
+}
+
+.scholarship-list .data-table td:nth-child(3) {
+    min-width: 140px;
+}
+
+.scholarship-list .data-table td:nth-child(4) {
+    white-space: nowrap;
+}
+
+.scholarship-list .data-table td:nth-child(5) {
+    white-space: nowrap;
+}
+
+/* =========================================================
+   Scholarship Type
+   ========================================================= */
+
+.scholarship-type {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 4px 8px;
+
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+
+    border-radius: var(--radius-pill);
+
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+/* =========================================================
+   Scholarship Deadline
+   ========================================================= */
+
+.scholarship-deadline {
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+.scholarship-deadline-date {
+    color: var(--color-text);
+
+    font-weight: 600;
+}
+
+.scholarship-deadline-label {
+    color: var(--color-text-muted);
+
+    font-size: 0.7rem;
+}
+
+/* =========================================================
+   Scholarship Amount
+   ========================================================= */
+
+.scholarship-stipend {
+    color: var(--color-text);
+
+    font-weight: 600;
+}
+
+.scholarship-stipend-empty {
+    color: var(--color-text-muted);
+}
+
+/* =========================================================
+   Scholarship Detail
+   ========================================================= */
+
+.scholarship-detail {
+    display: grid;
+    gap: 20px;
+}
+
+.scholarship-detail-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 24px;
+
+    padding: 24px;
+
+    background: var(--color-surface);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+}
+
+.scholarship-detail-title {
+    min-width: 0;
+}
+
+.scholarship-detail-title h1 {
+    margin: 0;
+
+    color: var(--color-text);
+
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+}
+
+.scholarship-detail-provider {
+    margin: 6px 0 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: 0.84rem;
+}
+
+.scholarship-detail-actions {
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: flex-end;
+
+    gap: 8px;
+}
+
+/* =========================================================
+   Scholarship Information Grid
+   ========================================================= */
+
+.scholarship-info-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 16px;
+}
+
+.scholarship-info-item {
+    padding: 16px;
+
+    background: var(--color-surface-muted);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.scholarship-info-label {
+    margin-bottom: 5px;
+
+    color: var(--color-text-muted);
+
+    font-size: 0.68rem;
+    font-weight: 700;
+
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.scholarship-info-value {
+    color: var(--color-text);
+
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+/* =========================================================
+   Scholarship Content Sections
+   ========================================================= */
+
+.scholarship-content-section {
+    padding: 20px;
+
+    background: var(--color-surface);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+}
+
+.scholarship-content-section h2 {
+    margin: 0 0 14px;
+
+    color: var(--color-text);
+
+    font-size: 0.95rem;
+    font-weight: 650;
+}
+
+.scholarship-content {
+    color: var(--color-text-secondary);
+
+    font-size: 0.84rem;
+    line-height: 1.7;
+}
+
+.scholarship-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* =========================================================
+   Scholarship Form
+   ========================================================= */
+
+.scholarship-form {
+    max-width: 960px;
+}
+
+.scholarship-form .form-card {
+    box-shadow: var(--shadow-sm);
+}
+
+/* =========================================================
+   Delete Confirmation
+   ========================================================= */
+
+.scholarship-delete-card {
+    max-width: 680px;
+
+    margin: 0 auto;
+
+    padding: 28px;
+
+    background: var(--color-surface);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+}
+
+.scholarship-delete-card .confirmation-message {
+    text-align: center;
+}
+
+.scholarship-delete-card .confirmation-message h2 {
+    margin: 0 0 10px;
+
+    color: var(--color-text);
+
+    font-size: 1.1rem;
+    font-weight: 650;
+}
+
+.scholarship-delete-card .confirmation-message p {
+    margin: 0 0 8px;
+
+    color: var(--color-text-secondary);
+
+    font-size: 0.84rem;
+    line-height: 1.55;
+}
+
+.scholarship-delete-card .confirmation-message .text-muted {
+    max-width: 520px;
+
+    margin-right: auto;
+    margin-left: auto;
+
+    font-size: 0.76rem;
+}
+
+.scholarship-delete-card .confirmation-actions {
+    margin-top: 24px;
+}
+
+/* =========================================================
+   Scholarship Responsive
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .scholarship-detail-header {
+        flex-direction: column;
+    }
+
+    .scholarship-detail-actions {
+        width: 100%;
+
+        justify-content: flex-start;
+    }
+
+    .scholarship-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .scholarship-delete-card {
+        padding: 22px 18px;
+    }
+}
+
+@media (max-width: 520px) {
+    .scholarship-detail-actions {
+        flex-direction: column;
+    }
+
+    .scholarship-detail-actions .btn {
+        width: 100%;
+    }
+}

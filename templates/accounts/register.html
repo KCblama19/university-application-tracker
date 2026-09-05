@@ -1,6 +1,11 @@
-{% extends "base.html" %}
+{% load static %}
 
-{% block title %}Create account — Application Command Center{% endblock %}
+{% block head %}
+    <link
+        rel="stylesheet"
+        href="{% static 'css/app.css' %}"
+    >
+{% endblock%}
 
 {% block content %}
 

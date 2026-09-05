@@ -29,8 +29,10 @@
 
     <div class="page-header-text">
 
-        <h1 class="page-title">
-            Good morning, {{ request.user.first_name|default:request.user.username }}.
+        <h1 class="page-title" id="welcome-greeting"
+            data-username="{{ request.user.first_name|default:request.user.username }}"
+        >
+            Hello, {{ request.user.first_name|default:request.user.username }}.
         </h1>
 
         <p class="page-description">

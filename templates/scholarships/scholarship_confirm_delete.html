@@ -1,23 +1,33 @@
 {% extends "base.html" %}
 
-{% block title %}Delete Scholarship | Application Tracker{% endblock %}
+{% block title %}
+    Delete Scholarship | Application Tracker
+{% endblock %}
+
+{% block breadcrumb %}
+    <span>Scholarships / Delete</span>
+{% endblock %}
 
 {% block content %}
 
 <div class="page-header">
 
-    <div>
-        <h1>Delete Scholarship</h1>
+    <div class="page-header-text">
 
-        <p class="section-description">
+        <h1 class="page-title">
+            Delete Scholarship
+        </h1>
+
+        <p class="page-description">
             Remove this scholarship from your tracker.
         </p>
+
     </div>
 
 </div>
 
 
-<div class="confirmation-content">
+<div class="scholarship-delete-card">
 
     <div class="confirmation-message">
 
@@ -38,9 +48,13 @@
     </div>
 
 
-    <form method="post" class="confirmation-actions">
+    <form
+        method="post"
+        class="confirmation-actions"
+    >
 
         {% csrf_token %}
+
 
         <a
             href="{% url 'scholarships:detail' scholarship.id %}"
@@ -48,6 +62,7 @@
         >
             Cancel
         </a>
+
 
         <button
             type="submit"
